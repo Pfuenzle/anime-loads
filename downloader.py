@@ -22,7 +22,7 @@ def settings():
         jdata = json.load(file)
         for key in jdata:
             if(key == "jdhost"):
-                jdhost = jdata[key]       
+                jdhost = jdata[key]
             if(key == "mode"):
                 mode = jdata[key]
             if(key == "hoster"):
@@ -236,35 +236,50 @@ def interactive():
             print("Das Release hat " + str(release.getEpisodeCount()) + " Episode(n)")
     
             epichoice = ""
+            episodes = []
             while(True):
-                epichoice = input("Welche Episode möchtest du herunterladen? (0 für alle (Achtung: Lädt im Moment noch jede Episode einzeln runter, zählt also zum Downloadlimit)): ")
+                epichoice = input("Welche Episode möchtest du herunterladen? (Mehrere mit Komma getrennt, 0 für alle (Achtung: Lädt im Moment noch jede Episode einzeln runter, zählt also zum Downloadlimit)): ")
                 if(epichoice == "exit"):
                     exit = True
                     break
                 elif(epichoice == "suche"):
                     search = True
                     break
-                try:
-                    epichoice = int(epichoice)
-                    if(epichoice <= release.getEpisodeCount()):
+                if("," in epichoice):
+                    try:
+                        episodes_str = epichoice.split(",")
+                        for ep in episodes_str:
+                            episodes.append(int(ep))
+                            if(int(ep) <= release.getEpisodeCount()):
+                                pass
+                            else:
+                                raise Exception
                         break
-                    else:
-                        raise Exception()
-                except:
-                    print("Fehlerhafte Episodennummer")
+                    except:
+                        print("Fehlerhafte Episodennummern")
+                else:
+                    try:
+                        episodes.append(epichoice)
+                        if(episodes[0] <= release.getEpisodeCount()):
+                            break
+                        else:
+                            raise Exception()
+                    except:
+                        print("Fehlerhafte Episodennummer")
     
             if(search or exit):
                 continue
             try:
-                if(epichoice != 0):
-                    if(mode == "jdownloader"):
-                        ret = anime.downloadEpisode(epichoice, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost)
-                        print(ret)
-                    else:
-                        ret = anime.downloadEpisode(epichoice, release, hoster, browserengine, browserlocation=browserlocation)
-                        for idx, link in enumerate(ret):
-                            print("Part " + str(idx+1) + ": " + link)
-                elif(epichoice == 0):
+                if(episodes[0] != 0):
+                    for i in episodes:
+                        if(mode == "jdownloader"):
+                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost)
+                            print(ret)
+                        else:
+                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation)
+                            for idx, link in enumerate(ret):
+                                print("Part " + str(idx+1) + ": " + link)
+                elif(episodes[0] == 0):
                     for i in range(0, release.getEpisodeCount()):
                         print("Lade episode " + str(i))
                         if(mode == "jdownloader"):
