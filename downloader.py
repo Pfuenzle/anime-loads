@@ -259,7 +259,7 @@ def interactive():
                         print("Fehlerhafte Episodennummern")
                 else:
                     try:
-                        episodes.append(epichoice)
+                        episodes.append(int(epichoice))
                         if(episodes[0] <= release.getEpisodeCount()):
                             break
                         else:
