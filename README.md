@@ -132,6 +132,11 @@ Vor dem Start wird man zusätzlich noch gefragt, ob man sich einloggen oder die 
 Sobald der Bot gestartet ist, prüft er alle Anime in der Liste alle X Sekunden nach Episodenupdates und falls welche gefunden wurden, fügt er sie automatisch bei JDownloader ein
 
 
+Im Projekt enthalten ist eine Beispiel-Liste für die Season 2020/2021
+Um sie zu nutzen, einfach "ani.json.example_season2020_2021" in "ani.json" umbennen. 
+Beim nächsten Start werden automatisch neue Episoden der aktuellen Season heruntergeladen
+
+
 <br><br>
 
 <h2 id="animeloads.py">
