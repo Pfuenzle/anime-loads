@@ -1,0 +1,21 @@
+{
+    "anime": [
+        {
+            "episodes": 12,
+            "missing": [
+                12
+            ],
+            "name": "No Game No Life",
+            "releaseID": 12,
+            "url": "https://www.anime-loads.org/media/no-game-no-life"
+        }
+    ],
+    "settings": {
+        "browserengine": "Chrome",
+        "browserlocation": "",
+        "hoster": 1,
+        "jdhost": "127.0.0.1",
+        "pushbullet_apikey": "",
+        "timedelay": 500
+    }
+}
