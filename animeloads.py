@@ -605,7 +605,7 @@ class anime():
                 + ", [Maingenre]: " + self.mainGenre + ", [Sidegenres]: " + str(self.sideGenres) + ", [Tags]: " + str(self.tags))
 
 
-    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost=""):
+    def downloadEpisode(self, episode, release, hoster, browser="", browserlocation="", jdhost=""):
         if(browser == "Firefox"):
             browser = animeloads.FIREFOX
         elif(browser == "Chrome"):
@@ -631,18 +631,18 @@ class anime():
         ######################################
 
 
-#        headers = {
-#        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
-#        "Referer": self.url,
-#        "Accept": "application/json, text/javascript, */*; q=0.01",
-#        "Accept-Language": "en-US,en;q=0.5",
-#        "Connection": "keep-alive",
-#        "Content-Length": "83",
-#        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-#        "TE": "Trailers",
-#        "X-Requested-With": "XMLHttpRequest",
-#        "Cookie": "ci_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%227fda60af7999159425b7143f63cd5202%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A13%3A%2289.244.161.10%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A94%3A%22Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%3B+rv%3A78.0%29+Gecko%2F20100101+Firefox%2F78.0+Waterfox%2F78.7.0%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1612911522%3B%7D3a772b4afefd4887a6eba3fffd868265c5769de6"
-#        }
+        headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+        "Referer": self.url,
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Connection": "keep-alive",
+        "Content-Length": "83",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "TE": "Trailers",
+        "X-Requested-With": "XMLHttpRequest",
+        "Cookie": "ci_session=a%3A4%3A%7Bs%3A10%3A%22session_id%22%3Bs%3A32%3A%227fda60af7999159425b7143f63cd5202%22%3Bs%3A10%3A%22ip_address%22%3Bs%3A13%3A%2289.244.161.10%22%3Bs%3A10%3A%22user_agent%22%3Bs%3A94%3A%22Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%3B+rv%3A78.0%29+Gecko%2F20100101+Firefox%2F78.0+Waterfox%2F78.7.0%22%3Bs%3A13%3A%22last_activity%22%3Bi%3A1612911522%3B%7D3a772b4afefd4887a6eba3fffd868265c5769de6"
+        }
 
 #        print("Session Cookies: " + str(cock))
 #        r = requests.post("https://webhook.site/75132056-b86a-4285-ab83-2cf785a202a1", data=data, headers=headers)
@@ -650,9 +650,9 @@ class anime():
 #        print(rad.text)
 #        print(rad.status_code)
 #        print(rad.cookies)
-#        r = self.session.post("https://www.anime-loads.org/ajax/captcha", data=data)
-#        print(r.text)
-#        r.raw.decode_content = True
+        r = self.session.post("https://www.anime-loads.org/ajax/captcha", data=data)
+        print(r.text)
+        r.raw.decode_content = True
 #        print("Response: " + str(r.text))
 #        cock = [
 #            {'name': c.name, 'value': c.value, 'domain': c.domain, 'path': c.path}
@@ -667,41 +667,41 @@ class anime():
         ############################################################################
 
         #Create Headless browser to bypass adblock detection
-        if(browser == animeloads.CHROME):
-            options = selenium.webdriver.chrome.options.Options()
-            options.headless = True
-            if(browserlocation != ""):
-                options.binary_location = browserlocation
-            driver = webdriver.Chrome(service_log_path=os.devnull, options=options)
-        elif(browser == animeloads.FIREFOX):
-            options = selenium.webdriver.firefox.options.Options()
-            options.headless = True
-            if(browserlocation != ""):
-                options.binary_location = browserlocation
-            driver = webdriver.Firefox(service_log_path=os.devnull, options=options)
-        else:
-            raise ALInvalidBrowserException("Nicht untersützter Browser")
+#        if(browser == animeloads.CHROME):
+#            options = selenium.webdriver.chrome.options.Options()
+#            options.headless = True
+#            if(browserlocation != ""):
+#                options.binary_location = browserlocation
+#            driver = webdriver.Chrome(service_log_path=os.devnull, options=options)
+#        elif(browser == animeloads.FIREFOX):
+#            options = selenium.webdriver.firefox.options.Options()
+#            options.headless = True
+#            if(browserlocation != ""):
+#                options.binary_location = browserlocation
+#            driver = webdriver.Firefox(service_log_path=os.devnull, options=options)
+#        else:
+#            raise ALInvalidBrowserException("Nicht untersützter Browser")
 
         #Erster besuch auf der Seite, damit cookies hinzugefügt werden können
-        driver.get("https://www.anime-loads.org/assets/pub/images/logo.png")
-
-        #Login cookies auf Selenium übertragen
-        for c in self.session.cookies:
-            driver.add_cookie({'name': c.name, 'value': c.value})
-
-        driver.get(self.url)
+#        driver.get("https://www.anime-loads.org/assets/pub/images/logo.png")
+#
+#        #Login cookies auf Selenium übertragen
+#        for c in self.session.cookies:
+#            driver.add_cookie({'name': c.name, 'value': c.value})
+#
+#        driver.get(self.url)
 
 
         #JS to make post request to get URLs
-        js = "var xhr = new XMLHttpRequest(); \
-xhr.open('POST', 'https://www.anime-loads.org/ajax/captcha', false); \
-xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); \
-xhr.send('enc=" + b64.decode('ascii') + "&response=nocaptcha'); \
-return xhr.response"
+#        js = "var xhr = new XMLHttpRequest(); \
+#xhr.open('POST', 'https://www.anime-loads.org/ajax/captcha', false); \
+#xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); \
+#xhr.send('enc=" + b64.decode('ascii') + "&response=nocaptcha'); \
+#return xhr.response"
 
-        ajaxresponse = driver.execute_script(js)
+#        ajaxresponse = driver.execute_script(js)
 
-        driver.quit()
+#        driver.quit()
 
         code = ""
         message = ""
@@ -709,7 +709,8 @@ return xhr.response"
         content_uploaded = ""
         content_ddl = ""
 
-        response_json = json.loads(ajaxresponse)
+#        response_json = json.loads(ajaxresponse)
+        response_json = json.loads(r.text)
 
         for key in response_json:
             value = response_json[key]
