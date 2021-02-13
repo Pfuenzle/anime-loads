@@ -76,6 +76,7 @@ Benötigte Software:
     ODER
     - Chrome und Chromedriver ( https://chromedriver.chromium.org/ )
     - Python 3
+    - JDownloader2
 
 Der Driver wird dazu genutzt, um den jeweiligen Browser fernzusteuern, 
 um der Seite zu überzeugen, dass der Bot ein vollwertiger Nutzer wird, 
