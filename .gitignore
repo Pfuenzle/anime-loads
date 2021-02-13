@@ -1,0 +1,8 @@
+__pycache__/
+test.py
+geckodriver.exe
+geckodriver.log
+chromedriver.exe
+settings.json
+ani.json
+ani.bkp
