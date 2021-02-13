@@ -6,6 +6,8 @@ import json
 from animeloads import animeloads
 from animeloads import ALCaptchaException
 
+from getpass import getpass
+
 import selenium
 
 arglen = len(sys.argv)

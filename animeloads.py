@@ -42,7 +42,7 @@ class animeloads:
             self.login(self.user, self.pw)
 
     def search(self, query):
-        searchdata = self.session.get(apihelper.getSearchURL(query), allow_redirects=False)
+        searchdata = apihelper.doSearchQuery(query, self.session, debug = True)
         searchresults = []
         if(searchdata.status_code == 302):  #only 1 result, got redirect
             redir_url = searchdata.headers['Location']
@@ -120,12 +120,11 @@ class animeloads:
 
 
     def login(self, user, pw):
-        data = {"identity": user, "password": pw, "remember": "1"}
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        }
-        r = self.session.post("https://www.anime-loads.org/auth/signin", data=data, headers=headers)
-
+        request = apihelper.doLogin(user, pw, self.session, debug = True)
+        print("test1:")
+        print(request.cookies)
+        print("\n\ntest2:")
+        print(self.session.cookies)
         for c in self.session.cookies:
             if("username" in c.value):
                 data = unquote(c.value)
@@ -138,6 +137,7 @@ class animeloads:
                             self.isVIP = True
                 return True
         raise ALInvalidLoginException("Login data is invalid")
+
 
 
 
@@ -206,10 +206,38 @@ class utils:
 
 class apihelper:
     @staticmethod
-    def getSearchURL(query):
-        return "https://www.anime-loads.org/search?q=" + query
+    def doSearchQuery(query, session, debug = False):        
+        request = session.get("https://www.anime-loads.org/search?q=" + query, allow_redirects=False)
+        if(debug):
+            print("\nServer-Header: ")
+            print(request.headers)
+            print("\nClient-Header: ")
+            print(request.request.headers)
+            print("\nCookies: ")
+            print(request.cookies)
+        return request
 
-
+    @staticmethod
+    def doLogin(user, pw, session, debug = False):
+        if(debug):
+            print("Cookies before:")
+            print(session.cookies)
+        data = {"identity": user, "password": pw, "remember": "1"}
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        }
+        request = session.post("https://www.anime-loads.org/auth/signin", data=data, headers=headers)
+        if(debug):
+            print("Doing login")
+            print("\nServer-Header: ")
+            print(request.headers)
+            print("\nClient-Header: ")
+            print(request.request.headers)
+            print("\nCookies: ")
+            print(request.cookies)
+            print("\nCookies after: ")
+            print(session.cookies)
+        return request
 
 
 class searchResult():
