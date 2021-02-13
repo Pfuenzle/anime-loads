@@ -150,7 +150,7 @@ def editconfig():
     if(change_timedelay):
         while(True):
             print("Hier kannst du deine Zeit, die zwischen der Suche nach neuen Episoden gewartet wird, einstellen.")
-            timedelay_str = input("Wielange möchtest du warten? (In Sekunden. Empfohlen: 600 Sekunden (10 minuten))")
+            timedelay_str = input("Wielange möchtest du warten? (In Sekunden. Empfohlen: 600 Sekunden (10 minuten)): ")
             try:
                 timedelay = int(timedelay_str)
                 break
