@@ -130,7 +130,7 @@ Wenn anibot.py normal durch einen Doppelklick geöffnet wird, startet der Bot no
 
 Vor dem Start wird man zusätzlich noch gefragt, ob man sich einloggen oder die Einstellungen ändern möchte.
 
-Sobald der Bot gestartet ist, prüft er alle Anime in der Liste alle X Sekunden nach Episodenupdates und falls welche gefunden wurden, fügt er sie automatisch bei JDownloader ein
+Sobald der Bot gestartet ist, prüft er alle Anime in der Liste alle X Sekunden nach neuen verfügbaren Episoden und falls welche gefunden wurden, fügt er sie automatisch bei JDownloader ein
 
 
 Im Projekt enthalten ist eine Beispiel-Liste für die Season 2020/2021
