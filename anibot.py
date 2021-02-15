@@ -504,8 +504,12 @@ def startbot():
                 name = animeentry['name']
                 url = animeentry['url']
                 releaseID = animeentry['releaseID']
-                anime = al.getAnime(url)
-                release = anime.getReleases()[releaseID-1]
+                try:
+                    anime = al.getAnime(url)
+                    release = anime.getReleases()[releaseID-1]
+                except:
+                    print("Failed to get Anime, skipping...")
+                    continue
                 missingEpisodes = animeentry['missing']
                 episodes = animeentry['episodes']
 
