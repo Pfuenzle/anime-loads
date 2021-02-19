@@ -298,9 +298,6 @@ def interactive():
             except ALCaptchaException:
                 print("Download benötigt captchas, bitte hole dir VIP für mehr Captcha-freie Zugriffe oder warte bis morgen")
 
-            if(ret == False):
-                print("Fehler beim hinzufügen zu JDownloader, ist er gestartet?")
-
     print("Programm wird beendet, vielen Dank fürs benutzen")
 
 if(arglen > 1):
