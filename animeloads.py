@@ -1,5 +1,7 @@
 import requests, http.cookiejar, json
 
+import myjdapi
+
 from lxml import etree
 from lxml import html
 
@@ -203,6 +205,28 @@ class utils:
             return False
         else:
             return True
+
+    @staticmethod
+    def addToMYJD(myjd_user, myjd_pass, myjd_device, links, pkgName, pwd):
+        jd=myjdapi.Myjdapi()
+        jd.set_app_key("animeloads")
+        jd.connect(myjd_user, myjd_pass)
+        jd.update_devices()
+
+        device=jd.get_device(myjd_device) 
+        
+        dl = device.linkgrabber
+        
+        return dl.add_links([{
+                              "autostart": True,
+                              "links": links,
+                              "packageName": pkgName,
+                              "extractPassword": pwd,
+                              "priority": "DEFAULT",
+                              "downloadPassword": None,
+                              "destinationFolder": None,
+                              "overwritePackagizerRules": False
+                          }])
 
 class apihelper:
     @staticmethod
@@ -605,7 +629,7 @@ class anime():
                 + ", [Maingenre]: " + self.mainGenre + ", [Sidegenres]: " + str(self.sideGenres) + ", [Tags]: " + str(self.tags))
 
 
-    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost=""):
+    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost="", myjd_user="", myjd_pw="", myjd_device=""):
         if(browser == "Firefox"):
             browser = animeloads.FIREFOX
         elif(browser == "Chrome"):
@@ -765,8 +789,21 @@ return xhr.response"
 
         jk = "function f(){ return \'" + k + "\';}"
 
-        if(jdhost != ""):
+        if(jdhost != "" and myjd_user == ""):
             return utils.addToJD(jdhost, release.getPassword(), self.url, crypted, jk)
+        elif(jdhost == "" and myjd_user != ""):
+            links_decoded = utils.decodeCNL(k, crypted)
+            links = []
+            linkstring = ""
+            for link in links_decoded:
+                linkstring += link.decode('ascii')
+            myjd_return = utils.addToMYJD(myjd_user, myjd_pw, myjd_device, linkstring, anime_identifier, release.getPassword())
+            try:
+                pkgID = myjd_return['id']
+                return True
+            except Exception as e:
+                print(e)
+                return False
         else:
             links_decoded = utils.decodeCNL(k, crypted)
             links = []

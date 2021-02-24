@@ -1,6 +1,8 @@
 import time
 import sys, os
 
+import myjdapi
+
 import json
 
 from animeloads import animeloads
@@ -33,6 +35,12 @@ def settings():
                 browserengine = jdata[key]
             if(key == "browserlocation"):
                 browserlocation = jdata[key]
+            if(key == "myjd_user"):
+                jd_user = jdata[key]
+            if(key == "myjd_pw"):
+                jd_pass = jdata[key]
+            if(key == "myjd_device"):
+                jd_device = jdata[key]
         file.close()
     except:
         jdhost = ""
@@ -40,6 +48,9 @@ def settings():
         hoster = ""
         browserengine = ""
         browserlocation = ""
+        jd_user = ""
+        jd_pass = ""
+        jd_device = ""
 
     if(hoster == 1):
         hosterstr = "ddownload"
@@ -68,14 +79,77 @@ def settings():
 
     if(changemode):
         if(compare(input("Möchtest du Jdownloader2 nutzen? Andernfalls werden die Links in der Konsole zurückgegeben [J/N]: "), {"j", "ja", "yes", "y"})):
-            if(input("Läuft dein JD2 auf deinem Lokalen Computer? Dann Eingabe leer lassen und bestätigen, falls nicht, gib die Adresse des Zeilrechners an: ") != ""):
-                jdhost = input
+            change_jdhost = True
+        
+        
+            jd_device = ""
+            jd_user = ""
+            jd_pass = ""
+        
+            jd_choice = input("Läuft Jdownloader auf deinem lokalen Rechner[1] oder möchtest du JDownloader nutzen[2]?  (1 oder 2): ")
+            if(jd_choice == 1):
+                if(jdhost != ""):
+                    if(compare(input("Deine Adresse des Computers, auf dem JDownloader läuft lautet: " + jdhost + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
+                        change_jhdhost = False
+              
+                if(change_jdhost):
+                    if(input("Läuft dein JD2 auf deinem Lokalen Computer? Dann Eingabe leer lassen und bestätigen, falls nicht, gib die Adresse des Zeilrechners an: ") != ""):
+                        jdhost = input
+                    else:
+                        jdhost = "127.0.0.1"
+                jd_device = ""
+                jd_pass = ""
+                jd_user = ""
+            
             else:
-                jdhost = "127.0.0.1"
+                jd_choice = 2
+                jd=myjdapi.Myjdapi()
+                jd.set_app_key("animeloads")
+                
+                logincorrect = False
+                while(logincorrect == False):
+                    jd_user = input("MyJdownloader Nutzername: ")
+                    jd_pass = getpass("MyJdownloader Passwort: ")
+                    
+                    try:
+                      jd.connect(jd_user, jd_pass)
+                      logincorrect = True
+                    except:
+                        print("Fehlerhafte Logindaten")
+                
+                print("Logindaten sind korrekt")
+                jd.update_devices()
+                devices = jd.list_devices() 
+                
+                print("Deine verbundenen Geräte: ")
+                for dev in devices:
+                    print(dev['name'])
+                
+                foundDevice = False
+                while(foundDevice == False):
+                    jd_device = input("Gib den Namen des Gerätes, welches du benutzen willst ein: ")
+                    for dev in devices:
+                        devname = dev['name']
+                        if(jd_device == devname):
+                            foundDevice = True
+                            break
+                    if(foundDevice == False):
+                        print("Gerät nicht gefunden...")
+                
+                print("Nutze Gerät: " + jd_device)
+                
+                if(compare(input("Möchtest du das MyJDownloader passwort speichern (unverschlüsselt!!!)? Andernfalls musst du es jeden Programmstart eingeben [J/N]: "), {"j", "ja", "yes", "y"}) == False):
+                    jd_pass = ""
+        
+                jdhost = ""
             mode = "jdownloader"
         else:
             print("Gebe links in Console aus...")
             mode = "console"
+            jdhost = ""
+            jd_user = ""
+            jd_pass = ""
+            jd_device = ""
 
     if(browserengine == 0):
         browserstring = "Firefox"
@@ -103,13 +177,16 @@ def settings():
 
     data = {
         "hoster": hoster,
-        "browserengine": browserengine,
         "mode": mode,
+        "browserengine": browser,
         "browserlocation": browserlocation,
-        "jdhost": jdhost
-        }
+        "jdhost": jdhost,
+        "myjd_user": jd_user,
+        "myjd_pw": jd_pass,
+        "myjd_device": jd_device
+    }
 
-    jdata = json.dumps(data)
+    jdata = json.dumps(data, indent=4, sort_keys=True)
 
     file = open("settings.json", "w")
     file.write(jdata)
@@ -129,8 +206,14 @@ def loadSettings():
             browserengine = jdata[key]
         if(key == "browserlocation"):
             browserlocation = jdata[key]
+        if(key == "myjd_user"):
+            myjd_user = jdata[key]
+        if(key == "myjd_pw"):
+            myjd_pass = jdata[key]
+        if(key == "myjd_device"):
+            myjd_device = jdata[key]
     file.close()
-    return jdhost, mode, hoster, browserengine, browserlocation
+    return jdhost, mode, hoster, browserengine, browserlocation, myjd_user, myjd_pass, myjd_device
 
 def interactive():
     al = animeloads()
@@ -140,7 +223,7 @@ def interactive():
     while(mode == ""):
       
         try:
-            jdhost, mode, hoster, browserengine, browserlocation = loadSettings()
+            jdhost, mode, hoster, browserengine, browserlocation, myjd_user, myjd_pass, myjd_device = loadSettings()
         except:
             print("Du hast noch keine Einstellungen festgelegt")
             settings()
@@ -157,9 +240,24 @@ def interactive():
         
     print("Angemeldet als Nutzer " + al.username + ", VIP: " + str(al.isVIP))
 
+    if(jdhost == "" and myjd_pass == ""):
+        print("Kein MyJdownloader Passwort gesetzt")
+        logincorrect = False 
+        jd=myjdapi.Myjdapi()
+        jd.set_app_key("animeloads")
+        while(logincorrect == False):
+            myjd_pw = getpass("MyJdownloader Passwort: ")
+          
+            try:
+              jd.connect(myjd_user, myjd_pw)
+              logincorrect = True
+            except:
+                print("Fehlerhafte Logindaten")
+    print("Erfolgreich eingeloggt")
+
     if(compare(input("Möchtest du deine Einstellungen ändern? [J/N]: "), {"j", "ja", "y", "yes"})):
         settings()
-        jdhost, mode, hoster, browserengine, browserlocation = loadSettings()
+        jdhost, mode, hoster, browserengine, browserlocation, myjd_user, myjd_pass, myjd_device = loadSettings()
 
     exit = False
     search = False
@@ -275,7 +373,7 @@ def interactive():
                 if(episodes[0] != 0):
                     for i in episodes:
                         if(mode == "jdownloader"):
-                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost)
+                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
                             print(ret)
                         else:
                             ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation)
@@ -285,7 +383,7 @@ def interactive():
                     for i in range(0, release.getEpisodeCount()):
                         print("Lade episode " + str(i))
                         if(mode == "jdownloader"):
-                            ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost)
+                            ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
                             print(ret)
                         else:
                             ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation)
@@ -304,7 +402,7 @@ if(arglen > 1):
     al = animeloads()
     for arg in sys.argv:
         if("--help" in arg):
-            print("Syntax: <downloader.py> [--url URL] [--user username] [--passwd password] [--list listfile] [--release release] [--episode episode] [--hoster hoster] [--jd 127.0.0.1] [--browser chrome] [--browserloc Browserpfad]")
+            print("Syntax: <downloader.py> [--url URL] [--user username] [--passwd password] [--list listfile] [--release release] [--episode episode] [--hoster hoster] [--jd 127.0.0.1] [--browser chrome] [--browserloc Browserpfad] [--myjd_user username/email] [--myjd_pw password] [--myjd_device Devicename]")
             sys.exit(1)
     url = ""            #done
     username = ""       #done
@@ -314,6 +412,9 @@ if(arglen > 1):
     hoster = ""         #done
     jdhost = ""         #done
     browser = ""        #done
+    myjd_user = ""      #done
+    myjd_pw = ""        #done
+    myjd_device = ""    #done
     browserlocation = ""     #done
     linklist = ""           #done
     for i in range(1, arglen):
@@ -408,6 +509,27 @@ if(arglen > 1):
             except:
                 print("Error, list argument is missing")
                 sys.exit(1)
+        if(sys.argv[i] == "--myjd_user"):
+            try:
+                myjd_user = sys.argv[i+1]
+                print("Set MyJD User to " + myjd_user)
+            except:
+                print("Error, User argument is missing")
+                sys.exit(1)
+        if(sys.argv[i] == "--myjd_pw"):
+            try:
+                myjd_pw = sys.argv[i+1]
+                print("Set MyJD Password to " + myjd_pw)
+            except:
+                print("Error, Password argument is missing")
+                sys.exit(1)
+        if(sys.argv[i] == "--myjd_device"):
+            try:
+                myjd_device = sys.argv[i+1]
+                print("Set MyJD Device to " + myjd_device)
+            except:
+                print("Error, Device argument is missing")
+                sys.exit(1)
         if(sys.argv[i] == "-- settings"):
             try:
                 settingsfile = sys.argv[i+1]
@@ -422,8 +544,14 @@ if(arglen > 1):
                         browserengine = jdata[key]
                     if(key == "browserlocation"):
                         browserlocation = jdata[key]
+                    if(key == "myjd_user"):
+                        myjd_user = jdata[key]
+                    if(key == "myjd_pw"):
+                        myjd_pass = jdata[key]
+                    if(key == "myjd_device"):
+                        myjd_device = jdata[key]
             except:
-                print("Error, list argument is missing")
+                print("Error, list argument is missing or list is invalid")
                 sys.exit(1)
     
     if(linklist != ""):
@@ -455,7 +583,7 @@ if(arglen > 1):
                     episode = int(splitline[i])
                     try:
                         print("Lade Episode : " + str(episode))
-                        print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost))
+                        print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
                     except Exception as e:
                         print(e)
 
@@ -475,7 +603,7 @@ if(arglen > 1):
 
                 for epi in range(1, rel.getEpisodeCount() + 1):
                     try:
-                        print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost))
+                        print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
                     except Exception as e:
                         print(e)
 
@@ -497,7 +625,7 @@ if(arglen > 1):
             for i in range(1, release.getEpisodeCount() + 1):
                 print("Lade episode " + str(i))
                 try:
-                    print(anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost))
+                    print(anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
                 except Exception as e:
                     print(e)
 
@@ -508,7 +636,7 @@ if(arglen > 1):
         for episode in episodes:
             print("Lade " + url + " episode " + str(episode))
             try:
-                print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost))
+                print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
             except Exception as e:
                 print(e)
 
@@ -518,7 +646,7 @@ if(arglen > 1):
         rel = anime.getBestReleaseByQuality()
         for epi in range(1, rel.getEpisodeCount()+1):
             try:
-                print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost))
+                print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
             except Exception as e:
                 print(e)
 
@@ -531,7 +659,7 @@ if(arglen > 1):
         for episode in episodes:
             print("Lade " + url + " episode " + str(episode) + " mit release " + release.tostring())
             try:
-                print(anime.downloadEpisode(episode, release, hoster, browser, browserlocation, jdhost))
+                print(anime.downloadEpisode(episode, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
             except Exception as e:
                 print(e)    
     
@@ -539,5 +667,5 @@ elif(arglen == 1):
     print("Starte interaktiven Modus")
     interactive()
 else:
-    print("Falsche Argumente: <downloader.py> [--url URL] [--user username] [--passwd password] [--list listfile] [--release release] [--episode episode] [--hoster hoster] [--jd 127.0.0.1] [--browser chrome] [--browserloc Browserpfad]")
+    print("Falsche Argumente: <downloader.py> [--url URL] [--user username] [--passwd password] [--list listfile] [--release release] [--episode episode] [--hoster hoster] [--jd 127.0.0.1] [--browser chrome] [--browserloc Browserpfad] [--myjd_user username/email] [--myjd_pw password] [--myjd_device Devicename]")
     sys.exit(1)

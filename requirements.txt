@@ -5,3 +5,4 @@ numpy
 pycryptodomex
 selenium
 pushbullet.py
+myjdapi

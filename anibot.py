@@ -12,6 +12,8 @@ from animeloads import animeloads
 
 arglen = len(sys.argv)
 
+import myjdapi
+
 pb = ""
 
 def log(message, pushbullet):
@@ -34,7 +36,7 @@ def loadconfig():
         infile.close()
     except:
         print("ani.json nicht gefunden, ")
-        return False, False, False, False, False, False
+        return False, False, False, False, False, False, False, False, False
     for key in data:
         if(key == "settings"):
             try:
@@ -45,10 +47,13 @@ def loadconfig():
                 browserlocation = value['browserlocation']
                 pushkey = value['pushbullet_apikey']
                 timedelay = value['timedelay']
+                myjd_user = value['myjd_user']
+                myjd_pw = value['myjd_pw']
+                myjd_device = value['myjd_device']
             except:
                 print("Fehlerhafte ani.json Konfiguration")
-                return False, False, False, False, False, False
-    return jdhost, hoster, browser, browserlocation, pushkey, timedelay
+                return False, False, False, False, False, False, False, False, False
+    return jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device
 
 def editconfig():
     try:
@@ -64,6 +69,9 @@ def editconfig():
                 browserlocation = value['browserlocation']
                 pushkey = value['pushbullet_apikey']
                 timedelay = value['timedelay']
+                myjd_user = value['myjd_user']
+                myjd_pw = value['myjd_pw']
+                myjd_device = value['myjd_device']
     except:
         jdhost = ""
         hoster = ""
@@ -71,6 +79,9 @@ def editconfig():
         browserlocation = ""
         pushkey = ""
         timedelay = ""
+        myjd_user = ""
+        myjd_pw = ""
+        myjd_device = ""
 
     if(hoster == 1):
         hosterstr = "ddownload"
@@ -94,15 +105,67 @@ def editconfig():
 
     change_jdhost = True
 
-    if(jdhost != ""):
-        if(compare(input("Deine Adresse des Computers, auf dem JDownloader läuft lautet: " + jdhost + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
-            change_jhdhost = False
 
-    if(change_jdhost):
-        if(input("Läuft dein JD2 auf deinem Lokalen Computer? Dann Eingabe leer lassen und bestätigen, falls nicht, gib die Adresse des Zeilrechners an: ") != ""):
-            jdhost = input
-        else:
-            jdhost = "127.0.0.1"
+    jd_device = ""
+    jd_user = ""
+    jd_pass = ""
+
+    jd_choice = input("Läuft Jdownloader auf deinem lokalen Rechner[1] oder möchtest du JDownloader nutzen[2]?  (1 oder 2): ")
+    if(jd_choice == 1):
+        if(jdhost != ""):
+            if(compare(input("Deine Adresse des Computers, auf dem JDownloader läuft lautet: " + jdhost + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
+                change_jhdhost = False
+      
+        if(change_jdhost):
+            if(input("Läuft dein JD2 auf deinem Lokalen Computer? Dann Eingabe leer lassen und bestätigen, falls nicht, gib die Adresse des Zeilrechners an: ") != ""):
+                jdhost = input
+            else:
+                jdhost = "127.0.0.1"
+        jd_device = ""
+        jd_pass = ""
+        jd_user = ""
+    
+    else:
+        jd_choice = 2
+        jd=myjdapi.Myjdapi()
+        jd.set_app_key("animeloads")
+        
+        logincorrect = False
+        while(logincorrect == False):
+            jd_user = input("MyJdownloader Nutzername: ")
+            jd_pass = getpass("MyJdownloader Passwort: ")
+            
+            try:
+              jd.connect(jd_user, jd_pass)
+              logincorrect = True
+            except:
+                print("Fehlerhafte Logindaten")
+        
+        print("Logindaten sind korrekt")
+        jd.update_devices()
+        devices = jd.list_devices() 
+        
+        print("Deine verbundenen Geräte: ")
+        for dev in devices:
+            print(dev['name'])
+        
+        foundDevice = False
+        while(foundDevice == False):
+            jd_device = input("Gib den Namen des Gerätes, welches du benutzen willst ein: ")
+            for dev in devices:
+                devname = dev['name']
+                if(jd_device == devname):
+                    foundDevice = True
+                    break
+            if(foundDevice == False):
+                print("Gerät nicht gefunden...")
+        
+        print("Nutze Gerät: " + jd_device)
+        
+        if(compare(input("Möchtest du das MyJDownloader passwort speichern (unverschlüsselt!!!)? Andernfalls musst du es jeden Programmstart eingeben [J/N]: "), {"j", "ja", "yes", "y"}) == False):
+            jd_pass = ""
+
+        jdhost = ""
 
     if(browser == 0):
         browserstring = "Firefox"
@@ -163,7 +226,10 @@ def editconfig():
         "pushbullet_apikey": pushkey,
         "browserlocation": browserlocation,
         "jdhost": jdhost,
-        "timedelay": timedelay
+        "timedelay": timedelay,
+        "myjd_user": jd_user,
+        "myjd_pw": jd_pass,
+        "myjd_device": jd_device
     }
 
     ani_exists = True
@@ -189,12 +255,12 @@ def editconfig():
         jfile.close
 
 def addAnime():
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
  
     while(jdhost == False):
         print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
         editconfig()
-        jdhost, hoster, browser, browserlocation, pushkey, timedelay = loadconfig()
+        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
 
     al = animeloads()
     exit = False
@@ -465,12 +531,12 @@ def addAnime():
 def startbot():
     al = animeloads()
 
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
  
     while(jdhost == False):
         print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
         editconfig()
-        jdhost, hoster, browser, browserlocation, pushkey, timedelay = loadconfig()
+        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
 
     if(pushkey != ""):
         pb = Pushbullet(pushkey)
@@ -487,6 +553,21 @@ def startbot():
     else:
         print("Überspringe Anmeldung")
 
+    if(jdhost == "" and myjd_pw == ""):
+        print("Kein MyJdownloader Passwort gesetzt")
+        logincorrect = False 
+        jd=myjdapi.Myjdapi()
+        jd.set_app_key("animeloads")
+        while(logincorrect == False):
+            myjd_pw = getpass("MyJdownloader Passwort: ")
+          
+            try:
+              jd.connect(myjd_user, myjd_pw)
+              logincorrect = True
+            except:
+                print("Fehlerhafte Logindaten")
+    print("Erfolgreich eingeloggt")
+    
     while(True):
         f = open("ani.json", "r")
         data = json.load(f)
@@ -523,8 +604,12 @@ def startbot():
                     for idx, missingEpisode in enumerate(missingEpisodes):
                         log("[DOWNLOAD] Lade fehlende Episode " + str(missingEpisode) + " von " + name, pb)
                         try:
-                            dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, jdhost)
-                        except:
+                            if(myjd_user != ""):
+                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
+                            else:
+                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, jdhost)
+                        except Exception as e:
+                            print(e)
                             dl_ret = False
                         if(dl_ret == True):
                             log("[DOWNLOAD] Fehlende Episode " + str(missingEpisode) + " von " + name + " wurde zu JDownloader hinzugefügt", pb)
@@ -543,8 +628,12 @@ def startbot():
                     for i in range(episodes + 1, curEpisodes + 1):
                         print("[DOWNLOAD] Lade episode " + str(i) + " von " + name)
                         try:
-                            dl_ret =anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost)
-                        except:
+                            if(myjd_user != ""):
+                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
+                            else:
+                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost)
+                        except Exception as e:
+                            print(e)
                             dl_ret = False
                         if(dl_ret == True):
                             log("[DOWNLOAD] Fehlende Episode " + str(i) + " von " + name + " wurde zu JDownloader hinzugefügt", pb)
@@ -569,12 +658,12 @@ def startbot():
             time.sleep(timedelay)
 
 def removeAnime():
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
  
     while(jdhost == False):
         print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
         editconfig()
-        jdhost, hoster, browser, browserlocation, timedelay = loadconfig()
+        jdhost, hoster, browser, browserlocation, timedelay, myjd_user, myjd_pw, myjd_device = loadconfig()
 
 
     f = open("ani.json", "r")
