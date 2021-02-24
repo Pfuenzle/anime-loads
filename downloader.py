@@ -178,7 +178,7 @@ def settings():
     data = {
         "hoster": hoster,
         "mode": mode,
-        "browserengine": browser,
+        "browserengine": browserengine,
         "browserlocation": browserlocation,
         "jdhost": jdhost,
         "myjd_user": jd_user,
@@ -240,7 +240,7 @@ def interactive():
         
     print("Angemeldet als Nutzer " + al.username + ", VIP: " + str(al.isVIP))
 
-    if(jdhost == "" and myjd_pass == ""):
+    if(jdhost == "" and myjd_pass == "" and mode != "console"):
         print("Kein MyJdownloader Passwort gesetzt")
         logincorrect = False 
         jd=myjdapi.Myjdapi()
