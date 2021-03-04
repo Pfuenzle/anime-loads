@@ -76,9 +76,9 @@ Falls noch keine Config existiert:
     - `docker run --rm -it -v $PWD/config:/config anibot`
 andernfalls einen Ordner "config" erstellen und ani.json reinverschieben
 
-Container im Hintergrund starten (Falls der Container im Vordergrund sein soll "-d" entfernen):
-    - `docker run --rm -d -v $PWD/config:/config anibot`
-oder mit docker-compose:
+Container starten:
+    - `docker run --rm -it -v $PWD/config:/config anibot`
+oder mit docker-compose (noch nicht fertig):
     - `docker-compose up -d`
 
 Config ändern:
