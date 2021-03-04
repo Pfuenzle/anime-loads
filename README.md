@@ -63,6 +63,40 @@ Das Projekt besteht aus 3 Teilen:
 Im js Ordner sind 2 Javascript Dateien, mit denen Ad-Cookies erstellt werden in einem Versuch, nicht mehr als Adblock erkannt zu werden
 <br>
 
+## Docker Quickstart
+
+### anibot.py:
+
+Container erstellen:
+    - `docker build docker_anibot/ -t anibot`
+
+Falls noch keine Config existiert:
+    - `docker run --rm -it -v $PWD/config:/config anibot`
+andernfalls einen Ordner "config" erstellen und ani.json reinverschieben
+
+Container im Hintergrund starten (Falls der Container im Vordergrund sein soll "-d" entfernen):
+    - `docker run --rm -d -v $PWD/config:/config anibot`
+oder mit docker-compose:
+    - `docker-compose up -d`
+
+Config ändern:
+    - `docker run --rm -it -v $PWD/config:/config anibot add`
+    - `docker run --rm -it -v $PWD/config:/config anibot edit`
+    - `docker run --rm -it -v $PWD/config:/config anibot remove`
+
+
+### downloader.py:
+
+Container erstellen:
+    - `docker build docker_downloader/ -t anidownloader`
+
+Falls noch keine Settings existieren:
+    - `docker run --rm -it -v $PWD/config:/config anidownloader`
+andernfalls einen Ordner "config" erstellen und settings.json reinverschieben
+
+Container starten (mögliche gewünschte Argumente einfach hinter Befehl einfügen):
+    - `docker run --rm -it -v $PWD/config:/config anidownloader`
+
 
 <br><br><br><br>
 
