@@ -65,6 +65,8 @@ Im js Ordner sind 2 Javascript Dateien, mit denen Ad-Cookies erstellt werden in 
 
 ## Docker Quickstart
 
+Die Dockerbefehle erstellen in dem aktuellen Ordner einen Unterordner "config", in dem die Einstellungen etc. gespeichert werden
+
 ### anibot.py:
 
 Container erstellen:
