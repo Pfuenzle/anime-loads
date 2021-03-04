@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  anibot:
+    build: ./docker_anibot
+    container_name: anibot
+    volumes:
+      - ./config:/config

@@ -16,6 +16,9 @@ import myjdapi
 
 pb = ""
 
+botfile = "/config/ani.json"
+botfolder = "/config/"
+
 def log(message, pushbullet):
     try:
         pushbullet.push_note("anibot", message)
@@ -31,7 +34,8 @@ def compare(inputstring, validlist):
 
 def loadconfig():
     try:
-        infile = open('ani.json', "r")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        infile = open(botfile, "r")
         data = json.load(infile)
         infile.close()
     except:
@@ -57,7 +61,8 @@ def loadconfig():
 
 def editconfig():
     try:
-        infile = open('ani.json', "r")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        infile = open(botfile, "r")
         data = json.load(infile)
         infile.close()
         for key in data:
@@ -235,7 +240,8 @@ def editconfig():
     ani_exists = True
 
     try:
-        f = open("ani.json", "r")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        f = open(botfile, "r")
         data = json.load(f)
         infile.close()
     except:
@@ -243,13 +249,15 @@ def editconfig():
 
     if(ani_exists):
         data['settings'] = settingsdata
-        jfile = open("ani.json", "w")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        jfile = open(botfile, "w")
         jfile.write(json.dumps(data, indent=4, sort_keys=True))
         jfile.flush()
         jfile.close
     else:
         settingsdata = {"settings": settingsdata}
-        jfile = open("ani.json", "w")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        jfile = open(botfile, "w")
         jfile.write(json.dumps(settingsdata, indent=4, sort_keys=True))
         jfile.flush()
         jfile.close
@@ -342,7 +350,8 @@ def addAnime():
                 "url": anime.getURL()
             }
         
-            f = open("ani.json", "r")
+            os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+            f = open(botfile, "r")
             data = json.load(f)
             f.close()
 
@@ -356,7 +365,8 @@ def addAnime():
                 fullanimedata.append(animedata)
                 data['anime'] = fullanimedata 
                 haveAddedAnime = True
-                jfile = open("ani.json", "w")
+                os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                jfile = open(botfile, "w")
                 jfile.write(json.dumps(data, indent=4, sort_keys=True))
                 jfile.flush()
                 jfile.close()
@@ -378,7 +388,9 @@ def addAnime():
 #                animedata = {"anime": animedata}
 #                data.append(animedata)
 
-                    jfile = open("ani.json", "w")
+
+                    os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                    jfile = open(botfile, "w")
                     jfile.write(json.dumps(data, indent=4, sort_keys=True))
                     jfile.flush()
                     jfile.close()
@@ -482,8 +494,10 @@ def addAnime():
                 "episodes": curEpisodes,
                 "url": anime.getURL()
             }
-        
-            f = open("ani.json", "r")
+    
+
+            os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+            f = open(botfile, "r")
             data = json.load(f)
             f.close()
 
@@ -497,7 +511,8 @@ def addAnime():
                 fullanimedata.append(animedata)
                 data['anime'] = fullanimedata 
                 haveAddedAnime = True
-                jfile = open("ani.json", "w")
+                os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                jfile = open(botfile, "w")
                 jfile.write(json.dumps(data, indent=4, sort_keys=True))
                 jfile.flush()
                 jfile.close()
@@ -518,8 +533,8 @@ def addAnime():
                     data['anime'] = fullanimedata 
 #                animedata = {"anime": animedata}
 #                data.append(animedata)
-
-                    jfile = open("ani.json", "w")
+                    os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                    jfile = open(botfile, "w")
                     jfile.write(json.dumps(data, indent=4, sort_keys=True))
                     jfile.flush()
                     jfile.close()
@@ -569,7 +584,8 @@ def startbot():
     print("Erfolgreich eingeloggt")
     
     while(True):
-        f = open("ani.json", "r")
+        os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+        f = open(botfile, "r")
         data = json.load(f)
         f.close()
       
@@ -616,7 +632,8 @@ def startbot():
                             missingEpisodes[idx] = -1
                             animeentry['missing'] = list(filter(lambda a: a != -1, missingEpisodes))
                             print("[INFO] Update ani.json")
-                            jfile = open("ani.json", "w")
+                            os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                            jfile = open(botfile, "w")
                             jfile.write(json.dumps(data, indent=4, sort_keys=True))
                             jfile.flush()
                             jfile.close
@@ -639,7 +656,8 @@ def startbot():
                             log("[DOWNLOAD] Fehlende Episode " + str(i) + " von " + name + " wurde zu JDownloader hinzugefügt", pb)
                             animeentry['episodes'] += 1
                             print("[INFO] Update ani.json")
-                            jfile = open("ani.json", "w")
+                            os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                            jfile = open(botfile, "w")
                             jfile.write(json.dumps(data, indent=4, sort_keys=True))
                             jfile.flush()
                             jfile.close
@@ -648,7 +666,8 @@ def startbot():
                             missingEpisodes.append(i)
                             animeentry['missing'] = missingEpisodes
                             animeentry['episodes'] += 1
-                            jfile = open("ani.json", "w")
+                            os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                            jfile = open(botfile, "w")
                             jfile.write(json.dumps(data, indent=4, sort_keys=True))
                             jfile.flush()
                             jfile.close
@@ -665,8 +684,8 @@ def removeAnime():
         editconfig()
         jdhost, hoster, browser, browserlocation, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
 
-
-    f = open("ani.json", "r")
+    os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+    f = open(botfile, "r")
     data = json.load(f)
     f.close()
 
@@ -690,7 +709,8 @@ def removeAnime():
                 try:
                     sel_int = int(selection) - 1
                     data['anime'].pop(sel_int)
-                    jfile = open("ani.json", "w")
+                    os.makedirs(os.path.dirname(botfolder), exist_ok=True)
+                    jfile = open(botfile, "w")
                     jfile.write(json.dumps(data, indent=4, sort_keys=True))
                     jfile.flush()
                     jfile.close()

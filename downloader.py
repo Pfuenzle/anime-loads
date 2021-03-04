@@ -12,6 +12,9 @@ from getpass import getpass
 
 import selenium
 
+settingsfile = "/config/settings.json"
+settingsfolder = "/config/"
+
 arglen = len(sys.argv)
 
 def compare(inputstring, validlist):
@@ -22,7 +25,8 @@ def compare(inputstring, validlist):
 
 def settings():
     try:
-        file = open("settings.json", "r")
+        os.makedirs(os.path.dirname(settingsfolder), exist_ok=True)
+        file = open(settingsfile, "r")
         jdata = json.load(file)
         for key in jdata:
             if(key == "jdhost"):
@@ -188,12 +192,14 @@ def settings():
 
     jdata = json.dumps(data, indent=4, sort_keys=True)
 
-    file = open("settings.json", "w")
+    os.makedirs(os.path.dirname(settingsfolder), exist_ok=True)
+    file = open(settingsfile, "w")
     file.write(jdata)
     file.close()
 
 def loadSettings():
-    file = open("settings.json", "r")
+    os.makedirs(os.path.dirname(settingsfolder), exist_ok=True)
+    file = open(settingsfile, "r")
     jdata = json.load(file)
     for key in jdata:
         if(key == "jdhost"):
@@ -391,7 +397,7 @@ def interactive():
                                 print("Part " + str(idx+1) + ": " + link)
     
 
-            except selenium.common.exceptions.WebDriverException:
+            except selenium.common.exceptions.WebDriverException as e:
                 print("[Fehler] Du musst chromedriver.exe (Chrome) oder geckodriver.exe (Firefox) im selben Ordner oder Pfad haben")
             except ALCaptchaException:
                 print("Download benötigt captchas, bitte hole dir VIP für mehr Captcha-freie Zugriffe oder warte bis morgen")

@@ -22,4 +22,4 @@ RUN rm -rf anime-loads
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python", "./downloader.py" ]
+CMD [ "python", "./anibot.py" ]
