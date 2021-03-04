@@ -86,7 +86,7 @@ def settings():
             jd_user = ""
             jd_pass = ""
         
-            jd_choice = input("Läuft Jdownloader auf deinem lokalen Rechner[1] oder möchtest du JDownloader nutzen[2]?  (1 oder 2): ")
+            jd_choice = input("Läuft Jdownloader auf deinem lokalen Rechner[1] oder möchtest du MyJdownloader nutzen[2]?  (1 oder 2): ")
             if(jd_choice == 1):
                 if(jdhost != ""):
                     if(compare(input("Deine Adresse des Computers, auf dem JDownloader läuft lautet: " + jdhost + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
@@ -246,10 +246,10 @@ def interactive():
         jd=myjdapi.Myjdapi()
         jd.set_app_key("animeloads")
         while(logincorrect == False):
-            myjd_pw = getpass("MyJdownloader Passwort: ")
+            myjd_pass = getpass("MyJdownloader Passwort: ")
           
             try:
-              jd.connect(myjd_user, myjd_pw)
+              jd.connect(myjd_user, myjd_pass)
               logincorrect = True
             except:
                 print("Fehlerhafte Logindaten")
@@ -373,7 +373,7 @@ def interactive():
                 if(episodes[0] != 0):
                     for i in episodes:
                         if(mode == "jdownloader"):
-                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
+                            ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device)
                             print(ret)
                         else:
                             ret = anime.downloadEpisode(i, release, hoster, browserengine, browserlocation=browserlocation)
@@ -383,7 +383,7 @@ def interactive():
                     for i in range(0, release.getEpisodeCount()):
                         print("Lade episode " + str(i))
                         if(mode == "jdownloader"):
-                            ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device)
+                            ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation, jdhost=jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device)
                             print(ret)
                         else:
                             ret = anime.downloadEpisode(i + 1, release, hoster, browserengine, browserlocation=browserlocation)
@@ -413,7 +413,7 @@ if(arglen > 1):
     jdhost = ""         #done
     browser = ""        #done
     myjd_user = ""      #done
-    myjd_pw = ""        #done
+    myjd_pass = ""        #done
     myjd_device = ""    #done
     browserlocation = ""     #done
     linklist = ""           #done
@@ -518,7 +518,7 @@ if(arglen > 1):
                 sys.exit(1)
         if(sys.argv[i] == "--myjd_pw"):
             try:
-                myjd_pw = sys.argv[i+1]
+                myjd_pass = sys.argv[i+1]
                 print("Set MyJD Password to " + myjd_pw)
             except:
                 print("Error, Password argument is missing")
@@ -583,7 +583,7 @@ if(arglen > 1):
                     episode = int(splitline[i])
                     try:
                         print("Lade Episode : " + str(episode))
-                        print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                        print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
                     except Exception as e:
                         print(e)
 
@@ -603,7 +603,7 @@ if(arglen > 1):
 
                 for epi in range(1, rel.getEpisodeCount() + 1):
                     try:
-                        print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                        print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
                     except Exception as e:
                         print(e)
 
@@ -625,7 +625,7 @@ if(arglen > 1):
             for i in range(1, release.getEpisodeCount() + 1):
                 print("Lade episode " + str(i))
                 try:
-                    print(anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                    print(anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
                 except Exception as e:
                     print(e)
 
@@ -636,7 +636,7 @@ if(arglen > 1):
         for episode in episodes:
             print("Lade " + url + " episode " + str(episode))
             try:
-                print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                print(anime.downloadEpisode(episode, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
             except Exception as e:
                 print(e)
 
@@ -646,7 +646,7 @@ if(arglen > 1):
         rel = anime.getBestReleaseByQuality()
         for epi in range(1, rel.getEpisodeCount()+1):
             try:
-                print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                print(anime.downloadEpisode(epi, rel, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
             except Exception as e:
                 print(e)
 
@@ -659,7 +659,7 @@ if(arglen > 1):
         for episode in episodes:
             print("Lade " + url + " episode " + str(episode) + " mit release " + release.tostring())
             try:
-                print(anime.downloadEpisode(episode, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pw, myjd_device=myjd_device))
+                print(anime.downloadEpisode(episode, release, hoster, browser, browserlocation, jdhost, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device))
             except Exception as e:
                 print(e)    
     
