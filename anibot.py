@@ -19,6 +19,14 @@ pb = ""
 botfile = "/config/ani.json"
 botfolder = "/config/"
 
+def is_docker():
+  if not os.path.isfile("/proc/" + str(os.getpid()) + "/cgroup"): return False
+  with open("/proc/" + str(os.getpid()) + "/cgroup") as f:
+    for line in f:
+      if re.match("\d+:[\w=]+:/docker(-[ce]e)?/\w+", line):
+        return True
+    return False
+
 def log(message, pushbullet):
     try:
         pushbullet.push_note("anibot", message)
@@ -546,29 +554,41 @@ def addAnime():
 def startbot():
     al = animeloads()
 
+    isdocker = is_docker()
+
     jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
  
     while(jdhost == False):
-        print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
-        editconfig()
-        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+        if(isdocker):
+            print("Keine oder fehlerhafte Konfiguration, beende...")
+            sys.exit(1)
+        else:
+            print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
+            editconfig()
+            jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
 
     if(pushkey != ""):
         pb = Pushbullet(pushkey)
     else:
         pb = ""
     
-    if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
-        user = input("Username: ")
-        password = getpass("Passwort: ")
-        try:
-            al.login(user, password)
-        except:
-            print("Fehlerhafte Anmeldedaten, fahre mit anonymen Account fort")
+    if(isdocker == False):
+        if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
+            user = input("Username: ")
+            password = getpass("Passwort: ")
+            try:
+                al.login(user, password)
+            except:
+                print("Fehlerhafte Anmeldedaten, fahre mit anonymen Account fort")
+        else:
+            print("Überspringe Anmeldung")
     else:
-        print("Überspringe Anmeldung")
+        print("Docker, überspringe Anmeldung..")
 
     if(jdhost == "" and myjd_pass == ""):
+        if(isdocker):
+            print("Kein MyJdownloader Passwort gesetzt, beende..")
+            sys.exit(1)
         print("Kein MyJdownloader Passwort gesetzt")
         logincorrect = False 
         jd=myjdapi.Myjdapi()
