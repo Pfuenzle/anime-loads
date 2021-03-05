@@ -17,7 +17,7 @@ import numpy, random, time
 
 import re
 
-import os
+import os, sys
 
 from urllib.parse import unquote
 
@@ -372,7 +372,10 @@ class anime():
                 elif("Jahr" == leftEntry):
                     self.year = int(rightEntry)
                 elif("Laufzeit" == leftEntry):
-                    self.runtime = int(re.sub("[^0-9]", "", rightEntry))
+                    runtimestring = re.sub("[^0-9]", "", rightEntry)
+                    if(runtimestring == ""):
+                        runtimestring = "0"
+                    self.runtime = int(runtimestring)
                 elif("Status" == leftEntry):
                     self.status = rightEntry
                 elif("Hauptgenre" == leftEntry):
@@ -462,7 +465,11 @@ class anime():
                 self.releases.append(tmprel)
             return True
 
-        except:
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print("Fehler beim parsen, bitte auf Github melden")
+            print(exc_type, fname, exc_tb.tb_lineno)
             return False
 
     
