@@ -1,0 +1,320 @@
+{
+    "anime": [
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Suppose a Kid from the Last Dungeon Boonies moved to a Starter Town",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/tatoeba-last-dungeon-mae-no-mura-no-shounen-ga-joban-no-machi-de-kurasu-you-na-monogatari"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Uma Musume: Pretty Derby Season 2",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/uma-musume-pretty-derby-season-2"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "True Cooking Master Boy 2",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/shin-chuuka-ichiban-2021"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Anime AzurLane: Slow Ahead!",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/azur-lane-bisoku-zenshin"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Wave!!: Let\u2019s Go Surfing!!",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/wave-surfing-yappe-2021"
+        },
+        {
+            "episodes": 42,
+            "missing": [],
+            "name": "Shadowverse",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/shadowverse"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Gekidol",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/gekidol"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Yatogame-chan Kansatsu Nikki 3",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/yatogame-chan-kansatsu-nikki-3-satsume"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Wonder Egg Priority",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/wonder-egg-priority"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "World Witches: Take Off!",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/world-witches-hasshin-shimasu"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Log Horizon: Destruction of the Round Table",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/log-horizon-entaku-houkai"
+        },
+        {
+            "episodes": 4,
+            "missing": [],
+            "name": "Sorcerous Stabber Orphen: Battle of Kimluck",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/majutsushi-orphen-hagure-tabi-kimluck-hen"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "I-Chu",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/i-chu-halfway-through-the-idol"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "LBX Girls",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/soukou-musume-senki"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Hortensia Saga",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/hortensia-saga"
+        },
+        {
+            "episodes": 4,
+            "missing": [],
+            "name": "Abciee Working Diary",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/abciee-shuugyou-nikki"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Laid-Back Camp Staffel 2",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/yuru-camp-season-2"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Heaven\u2019s Design Team",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/tenchi-souzou-design-bu"
+        },
+        {
+            "episodes": 19,
+            "missing": [],
+            "name": "Higurashi: When They Cry Gou",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/higurashi-no-naku-koro-ni-gou"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Cells at Work!!",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/hataraku-saibou"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "2.43 Seiin High Shool Boys Volleyball Team",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/243-seiin-koukou-danshi-volley-bu"
+        },
+        {
+            "episodes": 8,
+            "missing": [],
+            "name": "Cells at Work! Code Black",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/hataraku-saibou-black"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "The Quintessential Quintuplets 2",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/go-toubun-no-hanayome-1"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Bottom-Tier Character Tomozaki",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/jaku-chara-tomozaki-kun"
+        },
+        {
+            "episodes": 13,
+            "missing": [],
+            "name": "D4DJ First Mix",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/d4dj-first-mix"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Idolls!",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/idolls"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Back Arrow",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/back-arrow"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Wixoss Diva (A) Live",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/wixoss-diva-a-live"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Scar on the Praeter",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/project-scard-praeter-no-kizu"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "The Hidden Dungeon Only I Can Enter",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/ore-dake-haireru-kakushi-dungeon"
+        },
+        {
+            "episodes": 17,
+            "missing": [],
+            "name": "Jujutsu Kaisen",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/jujutsu-kaisen"
+        },
+        {
+            "episodes": 15,
+            "missing": [],
+            "name": "Dragon Quest: Dais Abenteuer",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/dragon-quest-dai-no-daibouken-2020"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Horimiya",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/horimiya"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Dr. Ramune Mysterious Disease Specialist",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/kai-byoui-ramune"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "SK8 the Infinity",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/sk8"
+        },
+        {
+            "episodes": 32,
+            "missing": [],
+            "name": "Digimon Adventure: (2020)",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/digimon-adventure-1"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Kemono Jihen",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/kemono-jihen"
+        },
+        {
+            "episodes": 7,
+            "missing": [],
+            "name": "Skate-Leading Stars",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/skate-leading-stars"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Mushoku Tensei: Jobless Reincarnation",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/mushoku-tensei-isekai-ittara-honki-dasu"
+        },
+        {
+            "episodes": 8,
+            "missing": [],
+            "name": "Attack on Titan Final Season",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/shingeki-no-kyojin-the-final-season"
+        },
+        {
+            "episodes": 5,
+            "missing": [],
+            "name": "Ex-Arm",
+            "releaseID": 3,
+            "url": "https://www.anime-loads.org/media/ex-arm"
+        },
+        {
+            "episodes": 3,
+            "missing": [],
+            "name": "Idoly Pride",
+            "releaseID": 1,
+            "url": "https://www.anime-loads.org/media/idoly-pride"
+        },
+        {
+            "episodes": 6,
+            "missing": [],
+            "name": "Otherside Picnic",
+            "releaseID": 3,
+            "url": "https://www.anime-loads.org/media/urasekai-picnic"
+        },
+        {
+            "episodes": 18,
+            "missing": [],
+            "name": "Yashahime: Princess Half-Demon",
+            "releaseID": 2,
+            "url": "https://www.anime-loads.org/media/hanyou-no-yashahime-sengoku-otogizoushi"
+        }
+    ],
+    "settings": {
+        "browserengine": 0,
+        "browserlocation": "",
+        "hoster": 0,
+        "jdhost": "127.0.0.1",
+        "pushbullet_apikey": "o.WDX6RLTJ0fkN27CAcTN077PgpXVZEfOv",
+        "timedelay": 600
+    }
+}

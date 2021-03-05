@@ -46,7 +46,8 @@ def loadconfig():
         infile = open(botfile, "r")
         data = json.load(infile)
         infile.close()
-    except:
+    except Exception as e:
+        print(e)
         print("ani.json nicht gefunden, ")
         return False, False, False, False, False, False, False, False, False
     for key in data:
@@ -62,7 +63,8 @@ def loadconfig():
                 myjd_user = value['myjd_user']
                 myjd_pass = value['myjd_pw']
                 myjd_device = value['myjd_device']
-            except:
+            except Exception as e:
+                print(e)
                 print("Fehlerhafte ani.json Konfiguration")
                 return False, False, False, False, False, False, False, False, False
     return jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device
