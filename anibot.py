@@ -16,8 +16,8 @@ import myjdapi
 
 pb = ""
 
-botfile = "/config/ani.json"
-botfolder = "/config/"
+botfile = "config/ani.json"
+botfolder = "config/"
 
 def is_docker():
   if not os.path.isfile("/proc/" + str(os.getpid()) + "/cgroup"): return False
@@ -556,25 +556,26 @@ def addAnime():
 def startbot():
     al = animeloads()
 
-    isdocker = is_docker()
-
     jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
  
+    interactive = True
+
     while(jdhost == False):
-        if(isdocker):
-            print("Keine oder fehlerhafte Konfiguration, beende...")
-            sys.exit(1)
-        else:
+        try:
             print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
             editconfig()
             jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+        except:
+            print("Keine oder fehlerhafte Konfiguration, beende...")
+            interactive = False
+            sys.exit(1)
 
     if(pushkey != ""):
         pb = Pushbullet(pushkey)
     else:
         pb = ""
     
-    if(isdocker == False):
+    if(interactive == True):
         if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
             user = input("Username: ")
             password = getpass("Passwort: ")
@@ -585,10 +586,10 @@ def startbot():
         else:
             print("Überspringe Anmeldung")
     else:
-        print("Docker, überspringe Anmeldung..")
+        print("Script wurde nicht interaktiv gestartet, überspringe Anmeldung..")
 
     if(jdhost == "" and myjd_pass == ""):
-        if(isdocker):
+        if(interactive == False):
             print("Kein MyJdownloader Passwort gesetzt, beende..")
             sys.exit(1)
         print("Kein MyJdownloader Passwort gesetzt")
