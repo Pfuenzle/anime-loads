@@ -768,17 +768,17 @@ if(arglen >= 2):
                 botfile = "config/ani.json"
                 botfolder = "config/"
                 print("--anipath gegeben, aber kein Pfad (oder fehlerhafter) danach, setze Pfad auf ./config/ani.json")
-    if(sys.argv[1] == "start"):
-        startbot()
-    elif(sys.argv[1] == "edit"):
-        editconfig()
-        print("Einstellungen gespeichert")
-    elif(sys.argv[1] == "add"):
-        addAnime()
-    elif(sys.argv[1] == "remove"):
-        removeAnime()
-    else:
-        printhelp()
+        if(arg == "start"):
+            startbot()
+        elif(arg == "edit"):
+            editconfig()
+            print("Einstellungen gespeichert")
+        elif(arg == "add"):
+            addAnime()
+        elif(arg == "remove"):
+            removeAnime()
+        else:
+            printhelp()
 
 else:
     if(arglen == 1):
