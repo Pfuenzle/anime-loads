@@ -559,13 +559,15 @@ def startbot():
     jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
  
     interactive = True
+    if "--docker" in sys.argv:
+        interactive = False
 
     while(jdhost == False):
-        try:
+        if(interactive):
             print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
             editconfig()
             jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
-        except:
+        else:
             print("Keine oder fehlerhafte Konfiguration und Script ist nicht interaktiv, beende...")
             interactive = False
             sys.exit(1)
@@ -575,7 +577,7 @@ def startbot():
     else:
         pb = ""
     
-    try:
+    if(interactive):
         if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
             user = input("Username: ")
             password = getpass("Passwort: ")
@@ -585,7 +587,7 @@ def startbot():
                 print("Fehlerhafte Anmeldedaten, fahre mit anonymen Account fort")
         else:
             print("Überspringe Anmeldung")
-    except:
+    else:
         print("Script wurde nicht interaktiv gestartet, überspringe Anmeldung..")
         interactive = False
 
@@ -751,7 +753,21 @@ def printhelp():
 
 
 
-if(arglen == 2):
+if(arglen >= 2):
+    for idx, arg in enumerate(sys.argv):
+        if(arg == "--configfile"):
+            try:
+                botfile = sys.argv[idx+1]
+                botfolder_arr = botfile.split("/")[:-1]
+                botfolder = ""
+                for p in botfolder_arr:
+                    botfolder += p
+                    botfolder += "/"
+                print("Config Datei: " + botfile)
+            except Exception as e:
+                botfile = "config/ani.json"
+                botfolder = "config/"
+                print("--anipath gegeben, aber kein Pfad (oder fehlerhafter) danach, setze Pfad auf ./config/ani.json")
     if(sys.argv[1] == "start"):
         startbot()
     elif(sys.argv[1] == "edit"):
