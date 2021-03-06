@@ -566,7 +566,7 @@ def startbot():
             editconfig()
             jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
         except:
-            print("Keine oder fehlerhafte Konfiguration, beende...")
+            print("Keine oder fehlerhafte Konfiguration und Script ist nicht interaktiv, beende...")
             interactive = False
             sys.exit(1)
 
@@ -575,7 +575,7 @@ def startbot():
     else:
         pb = ""
     
-    if(interactive == True):
+    try:
         if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
             user = input("Username: ")
             password = getpass("Passwort: ")
@@ -585,8 +585,9 @@ def startbot():
                 print("Fehlerhafte Anmeldedaten, fahre mit anonymen Account fort")
         else:
             print("Überspringe Anmeldung")
-    else:
+    except:
         print("Script wurde nicht interaktiv gestartet, überspringe Anmeldung..")
+        interactive = False
 
     if(jdhost == "" and myjd_pass == ""):
         if(interactive == False):
