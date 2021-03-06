@@ -752,7 +752,7 @@ def printhelp():
     print("[remove]:  Lösche Anime aus deiner Liste")
 
 
-
+commandSet = False
 if(arglen >= 2):
     for idx, arg in enumerate(sys.argv):
         if(arg == "--configfile"):
@@ -777,12 +777,15 @@ if(arglen >= 2):
             addAnime()
         elif(arg == "remove"):
             removeAnime()
-        else:
+        elif("help" in arg):
             printhelp()
 
 else:
     if(arglen == 1):
         startbot()
     printhelp()
+
+if(commandSet == False):
+    startbot()
 
 #episodes = getEpisodes()
