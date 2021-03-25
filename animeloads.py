@@ -468,8 +468,12 @@ class anime():
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("Fehler beim parsen, bitte auf Github melden")
-            print(exc_type, fname, exc_tb.tb_lineno)
+
+            if("IndexError" in exc_type):
+                print("Fehler beim parsen. Dies liegt sehr wahrscheinlich daran, dass anime-loads gerade offline ist oder einen Fehler hat.\nWenn der Fehler länger besteht, bitte auf Github melden.")
+            else:
+                print("Fehler beim parsen, bitte auf Github melden")
+                print(exc_type, fname, exc_tb.tb_lineno)
             return False
 
     
