@@ -69,22 +69,40 @@ Die Dockerbefehle erstellen in dem aktuellen Ordner einen Unterordner "config", 
 
 ### anibot.py:
 
-Container erstellen:
-    - `docker build docker_anibot/ -t anibot`
+Container pullen:
+
+    - docker pull pfuenzle/anime-loads
 
 Falls noch keine Config existiert:
-    - `docker run --rm -it -v $PWD/config:/config anibot`
-andernfalls einen Ordner "config" erstellen und ani.json reinverschieben
 
-Container starten:
-    - `docker run --rm -it -v $PWD/config:/config anibot`
-oder mit docker-compose (noch nicht fertig):
-    - `docker-compose up -d`
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads --interactive
+
+andernfalls einen Ordner "config" erstellen und eine bereits vorhandene ani.json reinverschieben
+
+Container starten (-it durch -dit ersetzen, um den Container im Hintergrund zu starten:
+
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads
+
+Docker-compose:
+```
+---
+version: "2.1"
+services:
+  anime-loads:
+    image: pfuenzle/anime-loads:latest
+    container_name: anime-loads
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+```
 
 Config ändern:
-    - `docker run --rm -it -v $PWD/config:/config anibot add`
-    - `docker run --rm -it -v $PWD/config:/config anibot edit`
-    - `docker run --rm -it -v $PWD/config:/config anibot remove`
+
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads add
+
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads edit
+
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads remove
 
 
 ### downloader.py:
