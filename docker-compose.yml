@@ -5,5 +5,5 @@ services:
     image: pfuenzle/anime-loads:latest
     container_name: anime-loads
     volumes:
-      - ./config:/config
+      - .//config:/config
     restart: unless-stopped

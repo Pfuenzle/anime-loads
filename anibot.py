@@ -40,6 +40,12 @@ def compare(inputstring, validlist):
             return True
     return False
 
+def printException(e):
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    print("Error:")
+    print(exc_type, fname, exc_tb.tb_lineno)
+
 def loadconfig():
     try:
         os.makedirs(os.path.dirname(botfolder), exist_ok=True)
@@ -47,7 +53,7 @@ def loadconfig():
         data = json.load(infile)
         infile.close()
     except Exception as e:
-        print(e)
+        printException(e)
         print("ani.json nicht gefunden, ")
         return False, False, False, False, False, False, False, False, False
     for key in data:
@@ -64,7 +70,7 @@ def loadconfig():
                 myjd_pass = value['myjd_pw']
                 myjd_device = value['myjd_device']
             except Exception as e:
-                print(e)
+                printException(e)
                 print("Fehlerhafte ani.json Konfiguration")
                 return False, False, False, False, False, False, False, False, False
     return jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device
@@ -356,12 +362,18 @@ def addAnime():
 
             print("\n")
 
+            customPackage = ""
+
+            if(compare(input("Möchtest du dem Anime einen spezifischen Paketnamen geben? Andernfalls wird der Name des Anime genutzt [J/N]: "), {"j", "ja", "yes", "y"}) == True):
+                customPackage = input("Packagename: ")
+
             animedata = {
                 "name": anime.getName(),
                 "missing": [],
                 "releaseID": relchoice,
                 "episodes": curEpisodes,
-                "url": anime.getURL()
+                "url": anime.getURL(),
+                "customPackage": customPackage
             }
         
             os.makedirs(os.path.dirname(botfolder), exist_ok=True)
@@ -501,12 +513,18 @@ def addAnime():
 
             print("\n")
 
+            customPackage = ""
+
+            if(compare(input("Möchtest du dem Anime einen spezifischen Paketnamen geben? Andernfalls wird der Name des Anime genutzt [J/N]: "), {"j", "ja", "yes", "y"}) == True):
+                customPackage = input("Packagename: ")
+
             animedata = {
                 "name": anime.getName(),
                 "missing": [],
                 "releaseID": relchoice,
                 "episodes": curEpisodes,
-                "url": anime.getURL()
+                "url": anime.getURL(),
+                "customPackage": customPackage
             }
     
 
@@ -632,6 +650,10 @@ def startbot():
                 url = animeentry['url']
                 releaseID = animeentry['releaseID']
                 try:
+                    customPackage = animeentry['customPackage']
+                except:
+                    customPackage = ""
+                try:
                     anime = al.getAnime(url)
                     release = anime.getReleases()[releaseID-1]
                 except:
@@ -651,11 +673,11 @@ def startbot():
                         log("[DOWNLOAD] Lade fehlende Episode " + str(missingEpisode) + " von " + name, pb)
                         try:
                             if(myjd_user != ""):
-                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device)
+                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device, pkgName=customPackage)
                             else:
-                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, jdhost)
+                                dl_ret = anime.downloadEpisode(missingEpisode, release, hoster, browser, browserlocation, jdhost, pkgName=customPackage)
                         except Exception as e:
-                            print(e)
+                            printException(e)
                             dl_ret = False
                         if(dl_ret == True):
                             log("[DOWNLOAD] Fehlende Episode " + str(missingEpisode) + " von " + name + " wurde zu JDownloader hinzugefügt", pb)
@@ -676,11 +698,11 @@ def startbot():
                         print("[DOWNLOAD] Lade episode " + str(i) + " von " + name)
                         try:
                             if(myjd_user != ""):
-                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device)
+                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device, pkgName=customPackage)
                             else:
-                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost)
+                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost, pkgName=customPackage)
                         except Exception as e:
-                            print(e)
+                            printException(e)
                             dl_ret = False
                         if(dl_ret == True):
                             log("[DOWNLOAD] Fehlende Episode " + str(i) + " von " + name + " wurde zu JDownloader hinzugefügt", pb)

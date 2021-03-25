@@ -640,7 +640,7 @@ class anime():
                 + ", [Maingenre]: " + self.mainGenre + ", [Sidegenres]: " + str(self.sideGenres) + ", [Tags]: " + str(self.tags))
 
 
-    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost="", myjd_user="", myjd_pw="", myjd_device=""):
+    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost="", myjd_user="", myjd_pw="", myjd_device="", pkgName=""):
         if(browser == "Firefox"):
             browser = animeloads.FIREFOX
         elif(browser == "Chrome"):
@@ -800,6 +800,9 @@ return xhr.response"
 
         jk = "function f(){ return \'" + k + "\';}"
 
+        if(pkgName == ""):
+            pkgName = anime_identifier
+
         if(jdhost != "" and myjd_user == ""):
             return utils.addToJD(jdhost, release.getPassword(), self.url, crypted, jk)
         elif(jdhost == "" and myjd_user != ""):
@@ -808,7 +811,7 @@ return xhr.response"
             linkstring = ""
             for link in links_decoded:
                 linkstring += link.decode('ascii')
-            myjd_return = utils.addToMYJD(myjd_user, myjd_pw, myjd_device, linkstring, anime_identifier, release.getPassword())
+            myjd_return = utils.addToMYJD(myjd_user, myjd_pw, myjd_device, linkstring, pkgName, release.getPassword())
             try:
                 pkgID = myjd_return['id']
                 return True
