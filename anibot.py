@@ -126,7 +126,7 @@ def editconfig():
     jd_pass = ""
 
     jd_choice = input("Läuft Jdownloader auf deinem lokalen Rechner[1] oder möchtest du MyJDownloader nutzen[2]?  (1 oder 2): ")
-    if(jd_choice == 1):
+    if(jd_choice == "1"):
         if(jdhost != ""):
             if(compare(input("Deine Adresse des Computers, auf dem JDownloader läuft lautet: " + jdhost + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
                 change_jhdhost = False
