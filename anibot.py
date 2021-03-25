@@ -187,24 +187,28 @@ def editconfig():
     elif(browser == 1):
         browserstring = "Chrome"
 
-    changebrowser = True
-    if(browser != ""):
-        if(compare(input("Dein gewählter Browser: " + browserstring + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
-            changebrowser = False
-    if(changebrowser):
-        while(True):
-            browser = input("Welchen Browser möchtest du nutzen? Darunter fallen auch forks der jeweiligen Browser (Chrome/Firefox)? Achte darauf, dass Chromedriver (Chrome) oder Geckodriver (Firefox) im gleichen Ordern wie das Script liegt: ")
-            if(browser == "Chrome"):
-                browser = animeloads.CHROME
-                break
-            elif(browser == "Firefox"):
-                browser = animeloads.FIREFOX
-                break
-            else:
-                print("Fehlerhafter Input, entweder Chrome oder Firefox")
-                
-        if(compare(input("Ist dein Browser ein fork von chrome/firefox oder an einem anderen als dem standardpfad installiert? [J/N]: "), {"j", "ja", "yes", "y"})):
-            browserloc = input("Dann gib jetzt den Pfad der Browserdatei an (inklusive Endung): ")
+    if("--docker" in sys.argv):
+        browser = animeloads.FIREFOX
+        print("Überspringe Browserwahl, da in Docker")
+    else:
+        changebrowser = True
+        if(browser != ""):
+            if(compare(input("Dein gewählter Browser: " + browserstring + ", möchtest du ihn wechseln? [J/N]: "), {"j", "ja", "yes", "y"}) == False):
+                changebrowser = False
+        if(changebrowser):
+            while(True):
+                browser = input("Welchen Browser möchtest du nutzen? Darunter fallen auch forks der jeweiligen Browser (Chrome/Firefox)? Achte darauf, dass Chromedriver (Chrome) oder Geckodriver (Firefox) im gleichen Ordern wie das Script liegt: ")
+                if(browser == "Chrome"):
+                    browser = animeloads.CHROME
+                    break
+                elif(browser == "Firefox"):
+                    browser = animeloads.FIREFOX
+                    break
+                else:
+                    print("Fehlerhafter Input, entweder Chrome oder Firefox")
+                    
+            if(compare(input("Ist dein Browser ein fork von chrome/firefox oder an einem anderen als dem standardpfad installiert? [J/N]: "), {"j", "ja", "yes", "y"})):
+                browserloc = input("Dann gib jetzt den Pfad der Browserdatei an (inklusive Endung): ")
 
 
     change_pushbullet = True
