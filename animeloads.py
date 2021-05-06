@@ -469,7 +469,7 @@ class anime():
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 
-            if("IndexError" in exc_type):
+            if("IndexError" in str(exc_type)):
                 print("Fehler beim parsen. Dies liegt sehr wahrscheinlich daran, dass anime-loads gerade offline ist oder einen Fehler hat.\nWenn der Fehler länger besteht, bitte auf Github melden.")
             else:
                 print("Fehler beim parsen, bitte auf Github melden")
