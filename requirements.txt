@@ -6,3 +6,4 @@ pycryptodomex
 selenium
 pushbullet.py
 myjdapi
+opencv-python
