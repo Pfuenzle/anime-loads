@@ -7,4 +7,4 @@ al = animeloads()
 anime = al.getAnime("https://www.anime-loads.org/media/heion-sedai-no-idaten-tachi")
 
 
-print(anime.downloadEpisode(2, anime.getReleases()[1], animeloads.UPLOADED, animeloads.CHROME))
+print(anime.downloadEpisode(1, anime.getReleases()[1], animeloads.UPLOADED, animeloads.CHROME))
