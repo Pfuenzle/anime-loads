@@ -75,13 +75,13 @@ Container pullen:
 
 Falls noch keine Config existiert:
 
-    - docker run --rm -it -v $PWD/config:/usr/src/app/anime-loads/config pfuenzle/anime-loads --interactive
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads --interactive
 
 andernfalls einen Ordner "config" erstellen und eine bereits vorhandene ani.json reinverschieben
 
 Container starten (-it durch -dit ersetzen, um den Container im Hintergrund zu starten:
 
-    - docker run --rm -it -v $PWD/config:/usr/src/app/anime-loads/config pfuenzle/anime-loads
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads
 
 Docker-compose:
 ```
@@ -92,17 +92,17 @@ services:
     image: pfuenzle/anime-loads:latest
     container_name: anime-loads
     volumes:
-      - ./config:/usr/src/app/anime-loads/config
+      - ./config:/config
     restart: unless-stopped
 ```
 
 Config ändern:
 
-    - docker run --rm -it -v $PWD/config:/usr/src/app/anime-loads/config pfuenzle/anime-loads add
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads add
 
-    - docker run --rm -it -v $PWD/config:/usr/src/app/anime-loads/config pfuenzle/anime-loads edit
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads edit
 
-    - docker run --rm -it -v $PWD/config:/usr/src/app/anime-loads/config pfuenzle/anime-loads remove
+    - docker run --rm -it -v $PWD/config:/config pfuenzle/anime-loads remove
 
 
 ### downloader.py:

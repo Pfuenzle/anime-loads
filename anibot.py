@@ -793,7 +793,7 @@ if(arglen >= 2):
             except Exception as e:
                 botfile = "config/ani.json"
                 botfolder = "config/"
-                print("--anipath gegeben, aber kein Pfad (oder fehlerhafter) danach, setze Pfad auf ./config/ani.json")
+                print("--configfile gegeben, aber kein Pfad (oder fehlerhafter) danach, setze Pfad auf ./config/ani.json")
         if(arg == "start"):
             commandSet = True
             startbot()
