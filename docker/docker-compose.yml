@@ -1,0 +1,9 @@
+---
+version: "2.1"
+services:
+  anime-loads:
+    image: pfuenzle/anime-loads:latest
+    container_name: anime-loads
+    volumes:
+      - .//config:/config
+    restart: unless-stopped
