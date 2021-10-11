@@ -222,7 +222,6 @@ def loadSettings():
     return jdhost, mode, hoster, browserengine, browserlocation, myjd_user, myjd_pass, myjd_device
 
 def interactive():
-    al = animeloads()
 
     mode = ""
 
@@ -233,6 +232,9 @@ def interactive():
         except:
             print("Du hast noch keine Einstellungen festgelegt")
             settings()
+
+
+    al = animeloads(browser=browserengine, browserloc=browserlocation)
 
     if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
         user = input("Username: ")
@@ -559,6 +561,8 @@ if(arglen > 1):
             except:
                 print("Error, list argument is missing or list is invalid")
                 sys.exit(1)
+    
+    al = animeloads(browser=browser, browserloc=browserlocation)
     
     if(linklist != ""):
         try:

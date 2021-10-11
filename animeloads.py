@@ -26,6 +26,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import selenium.webdriver.chrome.options
 import selenium.webdriver.firefox.options
 
+
 #captcha
 import time, json, hashlib, cv2, numpy, shutil
 
@@ -36,7 +37,7 @@ class animeloads:
     UPLOADED = 0
     DDOWNLOAD = 1
 
-    def __init__(self, user="", pw=""):
+    def __init__(self, user="", pw="", browser="", browserloc=""):
         self.user = user
         self.pw = pw
         self.session = requests.session()
@@ -45,10 +46,35 @@ class animeloads:
         self.session.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
         if(user != "" and pw != ""):
             self.login(self.user, self.pw)
+            
+        if(browser == animeloads.CHROME):
+            options = selenium.webdriver.chrome.options.Options()
+            options.headless = True
+            if(browserloc != ""):
+                options.binary_location = browserloc
+            driver = webdriver.Chrome(service_log_path=os.devnull, options=options)
+        elif(browser == animeloads.FIREFOX):
+            options = selenium.webdriver.firefox.options.Options()
+            options.headless = True
+            if(browserloc != ""):
+                options.binary_location = browserloc
+            driver = webdriver.Firefox(service_log_path=os.devnull, options=options)
+        else:
+            raise ALInvalidBrowserException("Nicht unterstützter Browser")
 
+        #Erster besuch auf der Seite, damit cookies hinzugefügt werden können
+        driver.get("https://www.anime-loads.org/assets/pub/images/logo.png")
+        
+        cookies = driver.get_cookies()
+        
+        for cookie in cookies:
+            self.session.cookies.set(cookie['name'], cookie['value'])
+        driver.quit()
+        
     def search(self, query):
         searchdata = self.session.get(apihelper.getSearchURL(query), allow_redirects=False)
         searchresults = []
+        print(searchdata.status_code)
         if(searchdata.status_code == 302):  #only 1 result, got redirect
             redir_url = searchdata.headers['Location']
             redir_anime = anime(redir_url, self.session, self)

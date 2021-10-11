@@ -290,7 +290,7 @@ def addAnime():
         editconfig()
         jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
 
-    al = animeloads()
+    al = animeloads(browser=browser, browserloc=browserlocation)
     exit = False
     search = False
 
@@ -576,7 +576,6 @@ def addAnime():
 
 
 def startbot():
-    al = animeloads()
 
     jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
  
@@ -598,6 +597,8 @@ def startbot():
         pb = Pushbullet(pushkey)
     else:
         pb = ""
+    
+    al = animeloads(browser=browser, browserloc=browserlocation)
     
     if(interactive):
         if(compare(input("Möchtest du dich anmelden? [J/N]: "), {"j", "ja", "yes", "y"})):
