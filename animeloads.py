@@ -624,7 +624,7 @@ class anime():
                     if(len(singleEP) == 0):
                         nextEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum+1) + "']")
                         if(len(nextEP) == 0):
-                            nextEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum+) + "']")
+                            nextEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum+2) + "']")
                             if(len(nextEP) == 0):
                                 break
                     epnum += 1
