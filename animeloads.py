@@ -622,7 +622,11 @@ class anime():
                     singleEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum) + "']")
     #                print("Episodenumber: " + str(epnum))
                     if(len(singleEP) == 0):
-                        break
+                        nextEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum+1) + "']")
+                        if(len(nextEP) == 0):
+                            nextEP = rel_dom.xpath("//a[@aria-controls='downloads_episodes_" + str(relID) + "_" + str(epnum+) + "']")
+                            if(len(nextEP) == 0):
+                                break
                     epnum += 1
     
                 tmprel = release(self.url, relID, group, res, dubs, subs, epnum, videoformat, size, password, anmerkung, detailPage.text, self.session)
