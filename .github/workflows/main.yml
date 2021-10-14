@@ -32,5 +32,5 @@ jobs:
         with:
           context: ./docker/amd64+arm64/
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: pfuenzle/anime-loads:latest
           labels: ${{ steps.meta.outputs.labels }}
