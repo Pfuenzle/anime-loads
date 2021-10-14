@@ -11,8 +11,7 @@ WORKDIR /usr/src/app/anime-loads
 RUN wget -nv https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz && tar -xf geckodriver-v0.30.0-linux64.tar.gz \
 && rm geckodriver-v0.30.0-linux64.tar.gz \
 && mv geckodriver /bin/geckodriver \
-&& chmod +x /bin/geckodriver \
-&& rm -rf chromedriver*
+&& chmod +x /bin/geckodriver
 RUN pip install --no-cache-dir -r requirements.txt
 
 ENTRYPOINT [ "python", "anibot.py", "--configfile", "/config/ani.json" ]
