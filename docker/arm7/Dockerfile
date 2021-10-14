@@ -11,8 +11,7 @@ WORKDIR /usr/src/app/anime-loads
 RUN wget -nv https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-arm7hf.tar.gz && tar -xf geckodriver-v0.23.0-arm7hf.tar.gz \
 && rm geckodriver-v0.23.0-arm7hf.tar.gz \
 && mv geckodriver /bin/geckodriver \
-&& chmod +x /bin/geckodriver \
-&& rm -rf chromedriver*
+&& chmod +x /bin/geckodriver
 
 RUN sed -i 's/numpy/numpy==1.21.1/g' requirements.txt
 RUN pip install --extra-index-url https://www.piwheels.org/simple --no-cache-dir -r requirements.txt
