@@ -1,4 +1,4 @@
-FROM python:3-slim-bullseye
+FROM python:3.9-slim-bullseye
 
 WORKDIR /usr/src/app
 RUN apt update \
