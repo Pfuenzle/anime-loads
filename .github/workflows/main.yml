@@ -1,13 +1,11 @@
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
-# documentation.
+# documentation
 
 name: Publish Docker image
 
-on:
-  release:
-    types: [published]
+on: push
 
 jobs:
   push_to_registry:
@@ -32,7 +30,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
+          context: ./docker/amd64+arm64/
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: pfuenzle/anime-loads:latest
           labels: ${{ steps.meta.outputs.labels }}
