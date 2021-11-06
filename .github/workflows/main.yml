@@ -52,5 +52,5 @@ jobs:
           context: ./docker/arm7/
           platforms: linux/arm
           push: true
-          tags: pfuenzle/anime-loads:arm7
+          tags: pfuenzle/anime-loads:latest
           labels: ${{ steps.meta.outputs.labels }}
