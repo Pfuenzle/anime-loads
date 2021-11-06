@@ -36,17 +36,17 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@master
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image AMD64/ARM/
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./docker/amd64+arm64/
           push: true
-          platforms: linux/amd64,linux/arm64,linux
+          platforms: linux/amd64,linux/arm64
           tags: pfuenzle/anime-loads:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push Docker image ARM64
+      - name: Build and push Docker image ARM7
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           builder: ${{ steps.buildx.outputs.name }}
