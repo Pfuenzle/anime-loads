@@ -27,10 +27,26 @@ jobs:
         with:
           images: pfuenzle/anime-loads
       
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
+
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./docker/amd64+arm64/
           push: true
+          platforms: linux/amd64,linux/arm64,linux
           tags: pfuenzle/anime-loads:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker image ARM64
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./docker/arm7/
+          platforms: linux/arm
+          push: true
+          tags: pfuenzle/anime-loads:arm7
           labels: ${{ steps.meta.outputs.labels }}
