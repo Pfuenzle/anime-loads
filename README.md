@@ -67,6 +67,10 @@ Im js Ordner sind 2 Javascript Dateien, mit denen Ad-Cookies erstellt werden in 
 
 Die Dockerbefehle erstellen in dem aktuellen Ordner einen Unterordner "config", in dem die Einstellungen etc. gespeichert werden
 
+Info für Raspberry Pi:
+für das Dockerimage immer `pfuenzle/anime-loads:arm` anstatt dem normalen verwenden.
+
+
 ### anibot.py:
 
 Container pullen:
