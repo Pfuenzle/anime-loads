@@ -12,8 +12,8 @@ from getpass import getpass
 
 import selenium
 
-settingsfile = "/config/settings.json"
-settingsfolder = "/config/"
+settingsfile = "config/settings.json"
+settingsfolder = "config/"
 
 arglen = len(sys.argv)
 
@@ -56,6 +56,8 @@ def settings():
         jd_pass = ""
         jd_device = ""
 
+    if(hoster == 2):
+        hosterstr = "rapidgator"
     if(hoster == 1):
         hosterstr = "ddownload"
     elif(hoster == 0):
@@ -66,15 +68,18 @@ def settings():
             changehoster = False
     if(changehoster):
         while(True):
-            host = input("Welchen hoster bevorzugst du? uploaded oder ddownload: ")
+            host = input("Welchen hoster bevorzugst du? rapidgator, uploaded oder ddownload: ")
             if("uploaded" in host):
                 hoster = animeloads.UPLOADED
                 break
             elif("ddownload" in host):
                 hoster = animeloads.DDOWNLOAD
                 break
+            elif("rapidgator" in host):
+                hoster = animeloads.RAPIDGATOR
+                break
             else:
-                print("Bitte gib entweder uploaded oder ddowwnload ein")
+                print("Bitte gib entweder uploaded, rapidgator oder ddowwnload ein")
 
     changemode = True
     if(mode != ""):
@@ -450,11 +455,13 @@ if(arglen > 1):
                     hoster = animeloads.UPLOADED
                 elif("ddownload".lower() in hoster.lower()):
                     hoster = animeloads.DDOWNLOAD
+                elif("rapidgator".lower() in hoster.lower()):
+                    hoster = animeloads.rapidgator
                 else:
                     raise Exception()
                 print("Set hoster to " + sys.argv[i+1])
             except:
-                print("Error, invalid hoster [only \"uploaded\" or \"ddownload\"]: " + hoster)
+                print("Error, invalid hoster [only \"uploaded\", \"rapidgator\" or \"ddownload\"]: " + hoster)
                 sys.exit(1)
         
         if(sys.argv[i] == "--jd"):

@@ -104,6 +104,8 @@ def editconfig():
         myjd_pw = ""
         myjd_device = ""
 
+    if(hoster == 2):
+        hosterstr = "rapidgator"
     if(hoster == 1):
         hosterstr = "ddownload"
     elif(hoster == 0):
@@ -114,15 +116,18 @@ def editconfig():
             changehoster = False
     if(changehoster):
         while(True):
-            host = input("Welchen hoster bevorzugst du? uploaded oder ddownload: ")
+            host = input("Welchen hoster bevorzugst du? uploaded, rapidgator oder ddownload: ")
             if("uploaded" in host):
                 hoster = animeloads.UPLOADED
                 break
             elif("ddownload" in host):
                 hoster = animeloads.DDOWNLOAD
                 break
+            elif("rapidgator" in host):
+                hoster = animeloads.RAPIDGATOR
+                break
             else:
-                print("Bitte gib entweder uploaded oder ddowwnload ein")
+                print("Bitte gib entweder uploaded, rapidgator oder ddowwnload ein")
 
     change_jdhost = True
 

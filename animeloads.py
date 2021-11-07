@@ -36,6 +36,7 @@ class animeloads:
     CHROME = 1
     UPLOADED = 0
     DDOWNLOAD = 1
+    RAPIDGATOR = 2
 
     def __init__(self, user="", pw="", browser="", browserloc=""):
         self.user = user
@@ -386,6 +387,7 @@ return xhr.response"
         reflinks = ""
         content_uploaded = ""
         content_ddl = ""
+        content_rappid = ""
 
         response_json = json.loads(ajaxresponse)
 
@@ -818,6 +820,8 @@ class anime():
                 hoster = animeloads.UPLOADED
             elif("ddownload" in hoster.lower()):
                 hoster = animeloads.DDOWNLOAD
+            elif("rapidgator" in hoster.lower()):
+                hoster = animeloads.RAPIDGATOR
         except:
             pass
 
@@ -909,6 +913,7 @@ return xhr.response"
         reflinks = ""
         content_uploaded = ""
         content_ddl = ""
+        content_rapid = ""
 
         response_json = json.loads(ajaxresponse)
 
@@ -931,8 +936,13 @@ return xhr.response"
                     content_ddl = value[1]
                 except:
                     pass
+                try:
+                    content_rapid = value[2]
+                except:
+                    pass
 
-        if(code != "success" and "noadblock" in message):
+        tries = 0
+        while(code != "success" and "noadblock" in message and tries < 5):
             print("Need to solve a captcha")
             cID = ""
             response_json = utils.doCaptcha(cID, driver, self.session, b64)
@@ -955,11 +965,16 @@ return xhr.response"
                         content_ddl = value[1]
                     except:
                         pass
+                    try:
+                        content_rapid = value[2]
+                    except:
+                        pass
+            tries += 1
             
 #            raise ALCaptchaException("Captcha is needed to get download links")
 
-        elif(code != "success"):
-            return ALUnknownException("Ein unbekannter Fehler beim lesen der Hosterlinks aufgetreten, möglicherweise serverseitig.")
+        if(code != "success"):
+            return ALUnknownException("Ein unbekannter Fehler beim lesen der Hosterlinks aufgetreten, möglicherweise serverseitig oder das Captcha konnte nach 5 Versuchen nicht gelöst werrden.")
 
         driver.quit()
 
@@ -971,6 +986,8 @@ return xhr.response"
 
         if(hoster == animeloads.DDOWNLOAD):
             cnldata = content_ddl
+        elif(hoster == animeloads.RAPIDGATOR):
+            cnldata = content_rapid
         else:
             cnldata = content_uploaded
 
