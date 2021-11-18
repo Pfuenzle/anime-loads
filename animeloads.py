@@ -237,7 +237,7 @@ class utils:
             return True
 
     @staticmethod
-    def addToMYJD(myjd_user, myjd_pass, myjd_device, links, pkgName, pwd):
+    def addToMYJD(myjd_user, myjd_pass, myjd_device, links, pkgName, pwd, destinationFolder=None):
         jd=myjdapi.Myjdapi()
         jd.set_app_key("animeloads")
         jd.connect(myjd_user, myjd_pass)
@@ -254,7 +254,7 @@ class utils:
                               "extractPassword": pwd,
                               "priority": "DEFAULT",
                               "downloadPassword": None,
-                              "destinationFolder": None,
+                              "destinationFolder": destinationFolder,
                               "overwritePackagizerRules": False
                           }])
 
