@@ -55,7 +55,7 @@ def loadconfig():
     except Exception as e:
         printException(e)
         print("ani.json nicht gefunden, ")
-        return False, False, False, False, False, False, False, False, False
+        return False, False, False, False, False, False, False, False, False, False, False
     for key in data:
         if(key == "settings"):
             try:
@@ -72,8 +72,14 @@ def loadconfig():
             except Exception as e:
                 printException(e)
                 print("Fehlerhafte ani.json Konfiguration")
-                return False, False, False, False, False, False, False, False, False
-    return jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device
+                return False, False, False, False, False, False, False, False, False, False, False
+            try:
+                al_user = value['al_user']
+                al_pass = value['al_pass']
+            except:
+                al_user = None
+                al_pass = None
+    return jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass
 
 def editconfig():
     try:
@@ -288,12 +294,12 @@ def editconfig():
         jfile.close
 
 def addAnime():
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
  
     while(jdhost == False):
         print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
         editconfig()
-        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
 
     al = animeloads(browser=browser, browserloc=browserlocation)
     exit = False
@@ -582,7 +588,7 @@ def addAnime():
 
 def startbot():
 
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
  
     interactive = "--docker" not in sys.argv
     if "--not-interactive" in sys.argv:
@@ -594,7 +600,7 @@ def startbot():
         if(interactive):
             print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
             editconfig()
-            jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+            jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
         else:
             print("Keine oder fehlerhafte Konfiguration und Script ist nicht interaktiv, beende...")
             interactive = False
@@ -618,8 +624,14 @@ def startbot():
         else:
             print("Überspringe Anmeldung")
     else:
-        print("Script wurde nicht interaktiv gestartet, überspringe Anmeldung..")
-        interactive = False
+        if(al_user is not None and al_pass is not None):
+            try:
+                al.login(al_user, al_pass)
+                print("Erfolgreich bei Anime-Loads angemeldet")
+            except:
+                print("Fehlerhafte Anmeldedaten, fahre mit anonymen Account fort")
+        else:
+            print("Keine Anmeldedaten für Anime-Loads hinterlegt, fahre mit anonymen Account fort")
 
     if(jdhost == "" and myjd_pass == ""):
         if(interactive == False):
@@ -737,12 +749,12 @@ def startbot():
             time.sleep(timedelay)
 
 def removeAnime():
-    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+    jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
  
     while(jdhost == False):
         print("Noch keine oder Fehlerhafte konfiguration, leite weiter zu Einstellungen")
         editconfig()
-        jdhost, hoster, browser, browserlocation, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
+        jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device, al_user, al_pass = loadconfig()
 
     os.makedirs(os.path.dirname(botfolder), exist_ok=True)
     f = open(botfile, "r")
