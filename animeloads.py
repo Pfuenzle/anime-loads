@@ -588,9 +588,15 @@ class anime():
                         videoformat = tRight
                     elif(tLeft == "Größe"):
                         if("GB" in tRight):
-                            size = float(re.sub("[^0-9.]", "", tRight)) * 1000
+                            try:
+                                size = float(re.sub("[^0-9.]", "", tRight)) * 1000
+                            except:
+                                size = 0.0
                         else:
-                            size = float(re.sub("[^0-9.]", "", tRight))
+                            try:
+                                size = float(re.sub("[^0-9.]", "", tRight))
+                            except:
+                                size = 0.0
                     elif(tLeft == "Passwort"):
                         password = tRight
                     elif(tLeft == "Release Anmerkungen"):
