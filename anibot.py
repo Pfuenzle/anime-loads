@@ -584,9 +584,11 @@ def startbot():
 
     jdhost, hoster, browser, browserlocation, pushkey, timedelay, myjd_user, myjd_pass, myjd_device = loadconfig()
  
-    interactive = True
-    if "--docker" in sys.argv and "--interactive" not in sys.argv:
+    interactive = "--docker" not in sys.argv
+    if "--not-interactive" in sys.argv:
         interactive = False
+    if "--interactive" in sys.argv:
+        interactive = True
 
     while(jdhost == False):
         if(interactive):
