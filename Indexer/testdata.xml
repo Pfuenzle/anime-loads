@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
+<channel>
+<atom:link href="https://newz-complex.org/www/www//api?t=tvsearch&amp;cat=5000,2000&amp;extended=1&amp;apikey=21459dad6ead39e65f5c2e133d00c9d5&amp;offset=0&amp;limit=50" rel="self" type="application/rss+xml" />
+<title>Newz-Complex.org</title>
+<description>Newz-Complex.org Feed</description>
+<link>https://newz-complex.org/www/</link>
+<language>en-gb</language>
+<webMaster>support@newz-complex.org (Newz-Complex.org)</webMaster>
+<category></category>
+<image>
+	<url>https://newz-complex.org/www/templates/default/images/banner.jpg</url>
+	<title>Newz-Complex.org</title>
+	<link>https://newz-complex.org/www/</link>
+	<description>Visit Newz-Complex.org - </description>
+</image>
+
+<newznab:response offset="0" total="616582" />
+<item>
+	<title>Good.Trouble.S03E16.German.DL.720p.WEB.h264-WvF</title>
+	<guid isPermaLink="true">https://newz-complex.org/www/details/91ddc3050356faef92bf336d23400bf4</guid>
+	<link>https://newz-complex.org/www/getnzb/</link>
+	<comments>https://newz-complex.org/www/details/91ddc3050356faef92bf336d23400bf4#comments</comments> 	
+	<pubDate>Wed, 08 Dec 2021 23:42:33 +0100</pubDate> 
+	<category>TV &gt; 720p</category> 	
+	<description>Good.Trouble.S03E16.German.DL.720p.WEB.h264-WvF</description>
+	<enclosure url="https://newz-complex.org/www/getnzb/" length="1298416818" type="application/x-nzb" />
+
+	<newznab:attr name="category" value="5000" />
+	<newznab:attr name="category" value="5030" />
+	<newznab:attr name="size" value="1298416818" />
+	<newznab:attr name="guid" value="91ddc3050356faef92bf336d23400bf4" />
+	<newznab:attr name="files" value="34" />
+	<newznab:attr name="poster" value="UCKBIskHxMSB5@ngPost.com" />
+	<newznab:attr name="season" value="S03" />
+	<newznab:attr name="episode" value="E16" />
+	<newznab:attr name="tvdbid" value="351504" />
+	<newznab:attr name="grabs" value="1" />
+	<newznab:attr name="comments" value="0" />
+	<newznab:attr name="password" value="0" />
+	<newznab:attr name="nfo" value="0" />
+	<newznab:attr name="usenetdate" value="Wed, 08 Dec 2021 23:41:53 +0100" />
+	<newznab:attr name="group" value="alt.binaries.bloaf" />
+</item>
+</channel>
+</rss>

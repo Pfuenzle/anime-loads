@@ -3,3 +3,4 @@ ani.json
 chromedriver.exe
 jdtest.py
 config/
+.idea/

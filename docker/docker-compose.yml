@@ -1,9 +1,19 @@
 ---
-version: "2.1"
+version: "3.5"
 services:
-  anime-loads:
+  anibot:
     image: pfuenzle/anime-loads:latest
     container_name: anime-loads
     volumes:
-      - .//config:/config
+      - ./config:/config
     restart: unless-stopped
+
+  indexer:
+    image: pfuenzle/anime-loads-indexer:latest
+    container_name: anime-loads-indexer
+    volumes:
+      - ./config.py:/usr/src/app/anime-loads/Indexer/config.py
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
