@@ -1011,26 +1011,40 @@ return xhr.response"
                 except:
                     raise ALLinkExtractionException("Linkdaten konnten nicht gelesen werden")
 
-        k_list = list(k)        
-        tmp = k_list[15]
-        k_list[15] = k_list[16]
-        k_list[16] = tmp
-        k = "".join(k_list)
+        try:
+            k_list = list(k)        
+            tmp = k_list[15]
+            k_list[15] = k_list[16]
+            k_list[16] = tmp
+            k = "".join(k_list)
+        except:
+            print("Failed to deobfuscate key")
+            raise ALLinkExtractionException("Linkdaten konnten nicht gelesen werden")
+
+#        print("Key wurde erfolgreich deobfuskiert")
 
         jk = "function f(){ return \'" + k + "\';}"
 
         if(pkgName == ""):
             pkgName = anime_identifier
-
         if(jdhost != "" and myjd_user == ""):
             return utils.addToJD(jdhost, release.getPassword(), self.url, crypted, jk)
         elif(jdhost == "" and myjd_user != ""):
-            links_decoded = utils.decodeCNL(k, crypted)
+            try:
+                links_decoded = utils.decodeCNL(k, crypted)
+                print("Successfully decoded links")
+            except:
+                print("Failed to decode links")
+                raise ALUnknownException("Failed to decode links")
             links = []
             linkstring = ""
             for link in links_decoded:
-                linkstring += link.decode('ascii')
-            myjd_return = utils.addToMYJD(myjd_user, myjd_pw, myjd_device, linkstring, pkgName, release.getPassword())
+                linkstring += link.decode('utf-8')
+            try:
+                 myjd_return = utils.addToMYJD(myjd_user, myjd_pw, myjd_device, linkstring, pkgName, release.getPassword())
+            except:
+                print("Failed to add Link to MyJD")
+                raise ALUnknownException("Failed to add Link to MyJD")
             try:
                 pkgID = myjd_return['id']
                 return True
