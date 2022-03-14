@@ -468,6 +468,7 @@ class anime():
         self.releases = []
         self.curEpisodes = 1337
         self.maxEpisodes = 1337
+        self.coverurl = ""
         self.updateInfo()
 
     def updateInfo(self):
@@ -550,9 +551,12 @@ class anime():
                     self.sideGenres = rightEntry.split("  ")
                 elif("Tags" == leftEntry):
                     self.tags = rightEntry.split("  ")
-    
-    
+
+
             rel_dom = etree.HTML(detailPage.text)
+
+            self.coverurl = rel_dom.xpath("//*[@id='description']/div[1]/div[1]/img/@src")[0]
+    
             releases_unparsed = rel_dom.xpath("//div[@id='downloads']/div[@class='row' and 1]/div[@class='col-sm-3' and 1]/ul[@class='nav nav-pills nav-stacked' and 1]")[0]    #Get left list of releases
             releases_dom = etree.HTML(html.tostring(releases_unparsed))
             releases = releases_dom.xpath("//li")   #Get single releases from list
@@ -810,6 +814,19 @@ class anime():
     def getReleases(self):
         return self.releases
 
+    def getCoverURL(self):
+        return self.coverurl
+
+    #Returns either raw PNG data or base64 encoded string
+    def getCover(self, selfbase64=False):
+        imgrequest = self.session.get(self.coverurl, stream=True)
+        imgdata = imgrequest.raw.data
+        if(selfbase64):
+            encdata = base64.b64encode(imgdata)
+            return encdata
+        else:
+            return imgdata
+        
     def tostring(self):
         return str("[Jap/Ger/EngName]: " + self.japName + "/" + self.gerName + "/" + self.engName + ", [Synonyms]: " + str(self.synonymes) + ", [Type]: " + \
             self.type + ", [Episodes]: " + str(self.curEpisodes) + "/" + str(self.maxEpisodes) + ", [Status]: " + self.status + ", [Year]: " + str(self.year) \
