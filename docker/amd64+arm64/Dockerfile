@@ -2,7 +2,7 @@ FROM python:3.9-slim-bullseye
 
 WORKDIR /usr/src/app
 RUN apt update \
-&& apt install --no-install-recommends git wget libxt6 libgl1-mesa-glx libdbus-glib-1-2 libgtk-3-0 firefox-esr lbzip2 -y \
+&& apt install --no-install-recommends git wget libxt6 libgl1-mesa-glx libdbus-glib-1-2 libgtk-3-0 firefox-esr lbzip2 gcc -y \
 && apt clean \
 && rm -rf /var/lib/apt/lists/* \
 && git clone https://github.com/Pfuenzle/anime-loads.git
