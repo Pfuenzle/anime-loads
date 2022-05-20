@@ -674,6 +674,10 @@ def startbot():
                 except:
                     customPackage = ""
                 try:
+                    destinationFolder = animeentry['destinationFolder']
+                except:
+                    destinationFolder = None
+                try:
                     anime = al.getAnime(url)
                     release = anime.getReleases()[releaseID-1]
                 except:
@@ -718,7 +722,7 @@ def startbot():
                         print("[DOWNLOAD] Lade episode " + str(i) + " von " + name)
                         try:
                             if(myjd_user != ""):
-                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device, pkgName=customPackage)
+                                dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, myjd_user=myjd_user, myjd_pw=myjd_pass, myjd_device=myjd_device, pkgName=customPackage, destinationFolder=destinationFolder)
                             else:
                                 dl_ret = anime.downloadEpisode(i, release, hoster, browser, browserlocation, jdhost, pkgName=customPackage)
                         except Exception as e:
