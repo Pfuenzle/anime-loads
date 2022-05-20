@@ -8,7 +8,7 @@ RUN apt update \
 && git clone https://github.com/Pfuenzle/anime-loads.git
 
 WORKDIR /usr/src/app/anime-loads
-RUN wget -nv https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz && tar -xf geckodriver-v0.30.0-linux64.tar.gz \
+RUN wget -nv https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz && tar -xf geckodriver-v0.31.0-linux64.tar.gz \
 && rm geckodriver-v0.30.0-linux64.tar.gz \
 && mv geckodriver /bin/geckodriver \
 && chmod +x /bin/geckodriver
