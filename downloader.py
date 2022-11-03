@@ -412,7 +412,6 @@ def interactive():
     print("Programm wird beendet, vielen Dank fürs benutzen")
 
 if(arglen > 1):
-    al = animeloads()
     for arg in sys.argv:
         if("--help" in arg):
             print("Syntax: <downloader.py> [--url URL] [--user username] [--passwd password] [--list listfile] [--release release] [--episode episode] [--hoster hoster] [--jd 127.0.0.1] [--browser chrome] [--browserloc Browserpfad] [--myjd_user username/email] [--myjd_pw password] [--myjd_device Devicename]")
@@ -456,7 +455,7 @@ if(arglen > 1):
                 elif("ddownload".lower() in hoster.lower()):
                     hoster = animeloads.DDOWNLOAD
                 elif("rapidgator".lower() in hoster.lower()):
-                    hoster = animeloads.rapidgator
+                    hoster = animeloads.RAPIDGATOR
                 else:
                     raise Exception()
                 print("Set hoster to " + sys.argv[i+1])
