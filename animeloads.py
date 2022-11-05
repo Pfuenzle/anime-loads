@@ -252,20 +252,20 @@ class utils:
                   }
                ]
             }
-        print(json.dumps(data))
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0 Waterfox/78.7.0",
             "Content-type": "application/json"
         }
         try:
             req = requests.post(f'http://{host}:{port}/linkgrabberv2/addLinks', data=json.dumps(data), headers=headers)
-        except:
-            return False
+        except Exception as e:
+            print(f'Fehler beim senden des requests zum JDownloader: {e}')
         retdata = json.loads(req.text)
-        if (retdata["type"]):
+        if ("type" in retdata):
             print(f'Senden zum JD fehlgeschlagen: {retdata["type"]}')
             return False
-        else:
+        elif ("data" in retdata):
+            print(f'Folge wurde zu JDownloader hinzugefügt. JobID: {retdata["data"]["id"]}')
             return True
 
     @staticmethod
