@@ -34,9 +34,8 @@ class animeloads:
 
     FIREFOX = 0
     CHROME = 1
-    UPLOADED = 0
-    DDOWNLOAD = 1
-    RAPIDGATOR = 2
+    DDOWNLOAD = 0
+    RAPIDGATOR = 1
 
     def __init__(self, user="", pw="", browser="", browserloc=""):
         self.user = user
@@ -385,7 +384,6 @@ return xhr.response"
         code = ""
         message = ""
         reflinks = ""
-        content_uploaded = ""
         content_ddl = ""
         content_rappid = ""
 
@@ -839,9 +837,7 @@ class anime():
         elif(browser == "Chrome"):
             browser = animeloads.CHROME
         try:
-            if("uploaded" in hoster.lower()):
-                hoster = animeloads.UPLOADED
-            elif("ddownload" in hoster.lower()):
+            if("ddownload" in hoster.lower()):
                 hoster = animeloads.DDOWNLOAD
             elif("rapidgator" in hoster.lower()):
                 hoster = animeloads.RAPIDGATOR
@@ -934,7 +930,6 @@ return xhr.response"
         code = ""
         message = ""
         reflinks = ""
-        content_uploaded = ""
         content_ddl = ""
         content_rapid = ""
 
@@ -952,15 +947,11 @@ return xhr.response"
                 reflinks = value
             elif(key == "content"):
                 try:
-                    content_uploaded = value[0]
+                    content_ddl = value[0]
                 except:
                     pass
                 try:
-                    content_ddl = value[1]
-                except:
-                    pass
-                try:
-                    content_rapid = value[2]
+                    content_rapid = value[1]
                 except:
                     pass
 
@@ -982,9 +973,7 @@ return xhr.response"
                 elif(key == "content"):
                     for item in value:
                         try:
-                            if item['hoster'] == "uploaded":
-                                content_uploaded = item
-                            elif item['hoster'] == "ddownload":
+                            if item['hoster'] == "ddownload":
                                 content_ddl = item
                             elif item['hoster'] == "rapidgator":
                                 content_rapid = item
@@ -1007,10 +996,8 @@ return xhr.response"
 
         if(hoster == animeloads.DDOWNLOAD):
             cnldata = content_ddl
-        elif(hoster == animeloads.RAPIDGATOR):
-            cnldata = content_rapid
         else:
-            cnldata = content_uploaded
+            cnldata = content_rapid
 
         for key in cnldata:
             value = cnldata[key]
