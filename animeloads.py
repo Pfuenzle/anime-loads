@@ -971,14 +971,14 @@ return xhr.response"
                 elif(key == "reflink"):
                     reflinks = value
                 elif(key == "content"):
-                    try:
-                        content_ddl = value[0]
-                    except:
-                        pass
-                    try:
-                        content_rapid = value[1]
-                    except:
-                        pass
+                    for item in value:
+                        try:
+                            if item['hoster'] == "ddownload":
+                                content_ddl = item
+                            elif item['hoster'] == "rapidgator":
+                                content_rapid = item
+                        except:
+                            pass
             tries += 1
             
 #            raise ALCaptchaException("Captcha is needed to get download links")
