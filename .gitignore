@@ -1,5 +1,6 @@
 settings.json
 ani.json
 chromedriver.exe
+geckodriver.exe
 jdtest.py
 config/

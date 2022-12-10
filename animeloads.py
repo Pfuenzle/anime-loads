@@ -46,7 +46,7 @@ class animeloads:
         self.session.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
         if(user != "" and pw != ""):
             self.login(self.user, self.pw)
-            
+
         if(browser == animeloads.CHROME):
             options = selenium.webdriver.chrome.options.Options()
             options.headless = True
@@ -64,13 +64,13 @@ class animeloads:
 
         #Erster besuch auf der Seite, damit cookies hinzugefügt werden können
         driver.get("https://www.anime-loads.org/assets/pub/images/logo.png")
-        
+
         cookies = driver.get_cookies()
-        
+
         for cookie in cookies:
             self.session.cookies.set(cookie['name'], cookie['value'])
         driver.quit()
-        
+
     def search(self, query):
         searchdata = self.session.get(apihelper.getSearchURL(query), allow_redirects=False)
         searchresults = []
@@ -127,13 +127,13 @@ class animeloads:
                         url = href
                         name = linktext
                         isFirst = True
-    
+
                 result_span = boxtree.xpath("//span[@class='label label-gold']")    #Span-Element for Episode count
                 for span in result_span:
                     epsplit = str(html.tostring(span)).split("/")
                     epCountCurrent = re.sub("[^0-9]", "", epsplit[1])   #Remove non-numbers from string
                     epCountMax = re.sub("[^0-9]", "", epsplit[2])
-    
+
                 lang_class = boxtree.xpath("//div[@class='mt10 mb10' and 3]")[0]       #Line which contains language flags, take first line as there is only one
                 langsplit = str(html.tostring(lang_class)).split("\"")
                 for substring in langsplit:
@@ -144,8 +144,8 @@ class animeloads:
                 result = searchResult(url, name, typ, relDate, epCountCurrent, epCountMax, dubLang, subLang, genre, self.session, self)
                 searchresults.append(result)
         return searchresults
-            
-    
+
+
     def getAnime(self, url):
         return anime(url, self.session, self)
 
@@ -188,7 +188,7 @@ class utils:
         d = map(lambda x: x.strip(b'\r\x00'), d.split(b'\n'))
         d = list(d)
         return d
-    
+
     @staticmethod
     def b(s):
         s = str(s)
@@ -199,19 +199,19 @@ class utils:
             a = numpy.int32(a)
             a = ((a << 5) - a + ord(s[curChar]))
         return abs(a)
-        
+
     @staticmethod
     def getAdString():
         rand1 = random.uniform(0, 1)
         first = ("" + str(utils.b(str(abs(rand1)))))
-        
-        
+
+
         date = str(round(time.time() * 1000))
         sec = ("" + str(utils.b(date)))
-        
+
         rand3 = random.uniform(0, 1)
         third = ("" + str(utils.b(str(abs(rand3)))))
-        
+
         return first + "" + sec + third
 
     @staticmethod
@@ -236,16 +236,48 @@ class utils:
             return True
 
     @staticmethod
+    def addToJDdeprecated(host, port, passwords, links, pkgName, destinationFolder=""):
+        data = {
+               "params":[
+                  {
+                     "packageName": pkgName,
+                     "autoExtract": True,
+                     "autostart": True,
+                     "destinationFolder": destinationFolder,
+                     "extractPassword": passwords,
+                     "links": links,
+                     "overwritePackagizerRules": True,
+                     "priority": "DEFAULT"
+                  }
+               ]
+            }
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0 Waterfox/78.7.0",
+            "Content-type": "application/json"
+        }
+        try:
+            req = requests.post(f'http://{host}:{port}/linkgrabberv2/addLinks', data=json.dumps(data), headers=headers)
+        except Exception as e:
+            print(f'Fehler beim senden des requests zum JDownloader: {e}')
+        retdata = json.loads(req.text)
+        if ("type" in retdata):
+            print(f'Senden zum JD fehlgeschlagen: {retdata["type"]}')
+            return False
+        elif ("data" in retdata):
+            print(f'Folge wurde zu JDownloader hinzugefügt. JobID: {retdata["data"]["id"]}')
+            return True
+
+    @staticmethod
     def addToMYJD(myjd_user, myjd_pass, myjd_device, links, pkgName, pwd, destinationFolder=None):
         jd=myjdapi.Myjdapi()
         jd.set_app_key("animeloads")
         jd.connect(myjd_user, myjd_pass)
         jd.update_devices()
 
-        device=jd.get_device(myjd_device) 
-        
+        device=jd.get_device(myjd_device)
+
         dl = device.linkgrabber
-        
+
         return dl.add_links([{
                               "autostart": True,
                               "links": links,
@@ -268,7 +300,7 @@ class utils:
     def doCaptcha(cID, driver,session, b64):
         captcha_baseURL = "https://www.anime-loads.org/files/captcha"
         img_baseURL = captcha_baseURL + "?cid=0&hash="
-    
+
 
         #get captcha images
 
@@ -419,7 +451,7 @@ class searchResult():
 
     def getName(self):
         return self.name
-    
+
     def getTyp(self):
         return self.typ
 
@@ -455,7 +487,7 @@ class anime():
         self.gerName = ""
         self.engName = ""
         self.japName = ""
-        self.synonymes = []     
+        self.synonymes = []
         self.type = ""
         self.year = 0
         self.runtime = 0
@@ -473,11 +505,11 @@ class anime():
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
         }
-        
+
         #Ad Adstring, an attempt to bypass adblock detection
         #adstring = utils.getAdString()
         #self.session.cookies.set("adcashufpv3", adstring, domain="www.anime-loads.org")
-        
+
         self.session.cookies.set("adsblocked", "0", domain="www.anime-loads.org")
         self.session.cookies.set("hideads", "1", domain="www.anime-loads.org")
 
@@ -497,7 +529,7 @@ class anime():
 
             p = HTMLTableParser()
             p.feed(detailPage.text)
-    
+
             detailtable = p.tables[0]
             for detail in detailtable:
                 leftEntry = detail[0]
@@ -554,34 +586,34 @@ class anime():
             rel_dom = etree.HTML(detailPage.text)
 
             self.coverurl = rel_dom.xpath("//*[@id='description']/div[1]/div[1]/img/@src")[0]
-    
+
             releases_unparsed = rel_dom.xpath("//div[@id='downloads']/div[@class='row' and 1]/div[@class='col-sm-3' and 1]/ul[@class='nav nav-pills nav-stacked' and 1]")[0]    #Get left list of releases
             releases_dom = etree.HTML(html.tostring(releases_unparsed))
             releases = releases_dom.xpath("//li")   #Get single releases from list
-    
+
             numReleases = len(releases) - 1         #Last release is "Add release", ignoring
-    
+
             #rid, group, res, dubs, subs, format, size, password, anmerkung=""
             for relIndex in range(0, numReleases):
                 relID = relIndex + 1
                 group = ""      #done
-                res = ""        
+                res = ""
                 dubs = []       #done
                 subs = []       #done
-                videoformat = ""    
-                size = 0            
-                password = ""       
-                anmerkung = ""      
+                videoformat = ""
+                size = 0
+                password = ""
+                anmerkung = ""
                 episodes = 0
                 table = p.tables[relID]    #First release, get name and anmerkung
-    
+
                 for idx in range(0, len(table)):
                     try:
                         tLeft = table[idx][0]
                         tRight = table[idx][1]
                     except:
                         continue
-    
+
                     if(tLeft == "Release Gruppe"):
                         group = tRight
                     elif(tLeft == "Auflösung"):
@@ -603,26 +635,26 @@ class anime():
                         password = tRight
                     elif(tLeft == "Release Anmerkungen"):
                         anmerkung = tRight
-    
-        
+
+
                 detailhtmlstring = str(html.tostring(releases[relIndex]))        #Detail html from release for languages#
-    
+
                 ###################
                 #WARNING: UGLY CODE
                 ###################
-    
+
                 dublangsubstring = detailhtmlstring.split("title=\"Sprache: ")      #HTMLCode split for Languages
                 for idx in range(1, len(dublangsubstring)):                         #Start with second result, first is always garbage
                     dublang = dublangsubstring[idx].split("\"")[0]                  #Cut string after ", language end there
                     dubs.append(dublang)                                            #Add to dublist
-    
-    
-    
+
+
+
                 sublangsubstring = detailhtmlstring.split("title=\"Untertitel: ")   #HTMLcode split for Subtitles
                 for idx in range(1, len(sublangsubstring)):                         #Start with second result, first is always garbage
                     sublang = sublangsubstring[idx].split("\"")[0]                  #Cut string after ", subtitle end there
                     subs.append(sublang)                                            #Add to sublist
-    
+
                 ##############
                 #UGLY CODE END
                 ##############
@@ -638,7 +670,7 @@ class anime():
                             if(len(nextEP) == 0):
                                 break
                     epnum += 1
-    
+
                 tmprel = release(self.url, relID, group, res, dubs, subs, epnum, videoformat, size, password, anmerkung, detailPage.text, self.session)
                 self.releases.append(tmprel)
             return True
@@ -654,7 +686,7 @@ class anime():
                 print(exc_type, fname, exc_tb.tb_lineno)
             return False
 
-    
+
     #quality: prefer 1080p/DTS
     def getBestReleaseByQuality(self, releaseList=[]):
         if(len(releaseList) == 0):
@@ -680,7 +712,7 @@ class anime():
                 bestList = rel720p
         else:
             bestList = rel1080p
-        
+
         #PCM>FLAC=DTS>AC3>AAC>MP3           #Thx to Toastkiste21 & Tanukichan
         pointlist = []
         for rel in bestList:            #Get best audio quality
@@ -708,7 +740,7 @@ class anime():
             if(score > bestscore):
                 bestscore = score
                 bestrel = rel
-        
+
         return rel
 
 
@@ -787,13 +819,13 @@ class anime():
 
     def getSynonymes(self):
         return self.synonymes
-    
+
     def getYear(self):
         return self.year
 
     def getCurrentEpisodes(self):
         return self.curEpisodes
-    
+
     def getMaxEpisodes(self):
         return self.maxEpisodes
 
@@ -805,7 +837,7 @@ class anime():
 
     def getSideGenres(self):
         return self.sideGenres
-    
+
     def getTags(self):
         return self.tags
 
@@ -824,14 +856,14 @@ class anime():
             return encdata
         else:
             return imgdata
-        
+
     def tostring(self):
         return str("[Jap/Ger/EngName]: " + self.japName + "/" + self.gerName + "/" + self.engName + ", [Synonyms]: " + str(self.synonymes) + ", [Type]: " + \
             self.type + ", [Episodes]: " + str(self.curEpisodes) + "/" + str(self.maxEpisodes) + ", [Status]: " + self.status + ", [Year]: " + str(self.year) \
                 + ", [Maingenre]: " + self.mainGenre + ", [Sidegenres]: " + str(self.sideGenres) + ", [Tags]: " + str(self.tags))
 
 
-    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost="", myjd_user="", myjd_pw="", myjd_device="", pkgName=""):
+    def downloadEpisode(self, episode, release, hoster, browser, browserlocation="", jdhost="", myjd_user="", myjd_pw="", myjd_device="",jd_deprecated=False,jd_deprecatedport="3128", pkgName="", destinationFolder=""):
         if(browser == "Firefox"):
             browser = animeloads.FIREFOX
         elif(browser == "Chrome"):
@@ -980,7 +1012,7 @@ return xhr.response"
                         except:
                             pass
             tries += 1
-            
+
 #            raise ALCaptchaException("Captcha is needed to get download links")
 
         if(code != "success"):
@@ -1014,7 +1046,7 @@ return xhr.response"
                     raise ALLinkExtractionException("Linkdaten konnten nicht gelesen werden")
 
         try:
-            k_list = list(k)        
+            k_list = list(k)
             tmp = k_list[15]
             k_list[15] = k_list[16]
             k_list[16] = tmp
@@ -1029,7 +1061,7 @@ return xhr.response"
 
         if(pkgName == ""):
             pkgName = anime_identifier
-        if(jdhost != "" and myjd_user == ""):
+        if(jdhost != "" and myjd_user == "" and not jd_deprecated):
             return utils.addToJD(jdhost, release.getPassword(), self.url, crypted, jk)
         elif(jdhost == "" and myjd_user != ""):
             try:
@@ -1053,13 +1085,29 @@ return xhr.response"
             except Exception as e:
                 print(e)
                 return False
+        elif (jd_deprecated and jd_deprecatedport):
+            try:
+                links_decoded = utils.decodeCNL(k, crypted)
+                print("Successfully decoded links")
+            except:
+                print("Failed to decode links")
+                raise ALUnknownException("Failed to decode links")
+            links = []
+            linkstring = ""
+            for link in links_decoded:
+                linkstring += link.decode('utf-8')
+            try:
+                return utils.addToJDdeprecated(jdhost, jd_deprecatedport, release.getPassword(), linkstring, pkgName, destinationFolder)
+            except Exception as e:
+                print(e)
+                return False
         else:
             links_decoded = utils.decodeCNL(k, crypted)
             links = []
             for link in links_decoded:
                 links.append(link.decode('ascii'))
             return links
-        
+
 
 
 
@@ -1112,7 +1160,7 @@ class release:
 
     def getResolution(self):
         return self.res
-        
+
     def getAudioCodec(self):
         return self.audiocodec
 
@@ -1124,10 +1172,10 @@ class release:
 
     def getVideoFormat(self):
         return self.videoformat
-    
+
     def getSize(self):
         return self.size
-    
+
     def getPassword(self):
         return self.password
 
