@@ -37,7 +37,7 @@ def add_to_jd(host, passwords, source, crypted, jk):
         req = requests.post("http://" + host + ":9666/flash/addcrypted2", data=data, headers=headers, timeout=30)
     except Exception:
         return False
-    retdata = req.text
+    retdata = req.text()
     if(retdata == "failed"):
         return False
     else:
