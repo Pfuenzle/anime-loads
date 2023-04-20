@@ -8,7 +8,6 @@ import time
 from binascii import unhexlify
 from urllib.parse import unquote
 
-import myjdapi
 import numpy
 import requests
 from Cryptodome.Cipher import AES
